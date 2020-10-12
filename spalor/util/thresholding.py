@@ -1,6 +1,7 @@
 import numpy as np
-from scipy.sparse.linalg import svds
 from numpy.linalg import svd
+from scipy.sparse.linalg import svds
+
 
 def sparseProj(x, s):
     '''

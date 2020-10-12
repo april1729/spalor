@@ -1,5 +1,4 @@
-from SpaLoR.util.thresholding import *
-
+from spalor.util.thresholding import *
 
 def altProjNiave(M, r, s, fTol=1e-10, maxIter=100):
     res = np.inf

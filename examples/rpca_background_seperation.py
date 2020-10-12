@@ -1,5 +1,5 @@
-from SpaLoR.datasets.data_loader import *
-from SpaLoR.RPCA.algorithms import *
+from spalor.datasets.data_loader import *
+from spalor.models import robust_pca
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 

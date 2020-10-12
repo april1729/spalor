@@ -1,8 +1,9 @@
 from spalor.algorithms.mc_algorithms import *
+
 from ..util.util_MC import *
 
 
-class MC:
+class RobustMC:
     '''
 
     '''
@@ -20,12 +21,6 @@ class MC:
         self.user_std = np.zeros(m)
 
     def fit(self, X, y):
-        '''
-
-        :param X:
-        :param y:
-        :return:
-        '''
         y_fit = np.zeros(len(y))
         for user in range(0, self.m):
             idx = np.where(X[0, :] == user)
@@ -37,26 +32,10 @@ class MC:
         self.V = V
 
     def predict(self, X):
-        '''
-        
-        :param X:
-        :return:
-        '''
         y = partXY(self.U, self.V, X)
 
         for user in range(0, self.m):
             idx = np.where(X[0, :] == user)
             y[idx] = (y[idx] * self.user_std[user]) + self.user_means[user]
+
         return y
-
-
-    def transform(self, X, dim=None):
-        '''
-
-        :param X:
-        :param dim:
-        :return:
-        '''
-        pass
-
-

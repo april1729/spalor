@@ -1,10 +1,12 @@
 from math import *
+
 from scipy.sparse import coo_matrix
-from SpaLoR.util.util_MC import *
-from SpaLoR.util.thresholding import *
+
+from spalor.util.thresholding import *
+from spalor.util.util_MC import *
 
 
-def lmafit_mc_adp(m, n, r, known, data):
+def lmafit(m, n, r, known, data):
     L = len(data);
 
     # set parameters
@@ -63,7 +65,6 @@ def lmafit_mc_adp(m, n, r, known, data):
         S = coo_matrix(((alf + 1) * Res, known))
 
     return (X, Y)
-
 
 def svt(m, n, beta_max, known, data, eps=1e-5, r_max=None):
     if r_max is None:
