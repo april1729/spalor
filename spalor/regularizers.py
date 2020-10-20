@@ -11,7 +11,7 @@ def scad_sg(x, gamma, a):
     return 0
 
 
-def scad_prox(x, gamma, a, beta):
+def scad_prox(x, gamma, a):
     return 0
 
 
@@ -24,12 +24,10 @@ def mcp_sg(x, gamma, a):
     return 0
 
 
-def mcp_prox(x, gamma, a, beta):
-    if abs(x)< a * gamma:
-        return np.sign(x)*((a*beta)/(a*beta-1)) * (abs(x)-gamma/beta)
-    else:
-        return x
-
+def mcp_prox(x, gamma, a):
+    y=np.multiply(np.sign(x),((a)/(a-1)) * np.maximum(abs(x)-gamma,0))
+    y[abs(x)>a*gamma]=x[abs(x)>a*gamma]
+    return y
 
 #L1 functions
 def l1(x, gamma, a):
@@ -40,5 +38,5 @@ def l1_sg(x, gamma, a):
     return gamma*np.sign(x)
 
 
-def l1_prox(x, gamma, a, beta):
-    return np.sign(x)*(abs(x)-gamma/beta)
+def l1_prox(x, gamma, a):
+    return np.multiply(np.sign(x),(abs(x)-gamma))

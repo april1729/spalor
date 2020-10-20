@@ -6,7 +6,8 @@ class CUR():
     def __init__(self,A,n_components):
         self.A=A
         self.n_components=n_components
-        pass
+
+
     def fit(self):
         u,s,vt=svds(self.A,self.n_components)
 
@@ -24,10 +25,9 @@ class CUR():
 
         self.U=pinv(self.C).dot(self.A).dot(pinv(self.R))
 
-        pass
+
     def transform(self):
         pass
-
 
     def get_params(self):
         return (self.C, self.U, self.R)

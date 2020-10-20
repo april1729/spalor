@@ -1,5 +1,5 @@
 from spalor.algorithms.mc_algorithms import *
-from ..util.util_MC import *
+from ..util.factorization_util import *
 
 
 class MC:
@@ -48,15 +48,4 @@ class MC:
             idx = np.where(X[0, :] == user)
             y[idx] = (y[idx] * self.user_std[user]) + self.user_means[user]
         return y
-
-
-    def transform(self, X, dim=None):
-        '''
-
-        :param X:
-        :param dim:
-        :return:
-        '''
-        pass
-
 

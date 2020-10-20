@@ -3,7 +3,7 @@ from math import *
 from scipy.sparse import coo_matrix
 
 from spalor.util.thresholding import *
-from spalor.util.util_MC import *
+from spalor.util.factorization_util import *
 
 
 def lmafit(m, n, r, known, data):

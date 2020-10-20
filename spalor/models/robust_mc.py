@@ -1,6 +1,6 @@
 from spalor.algorithms.mc_algorithms import *
 
-from ..util.util_MC import *
+from ..util.factorization_util import *
 
 
 class RobustMC:
