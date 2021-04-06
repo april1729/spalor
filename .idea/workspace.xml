@@ -2,55 +2,34 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="296382c1-63f3-4c1d-9eec-2e6342903a55" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/spalor.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/index.rst" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user_guide/CUR_and_CX.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user_guide/nonconvex_regularizers.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user_guide/reweighted_lasso.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user_guide/robust_PCA.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docs/user_guide/sparse_PCA.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/computed_tomography.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/movie_lens_mc.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/movie_recomendations_based_on_few_samples.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/examples/topics_identification.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/datasets/_collaborative_filtering.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/datasets/_fish_videos.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/models/reweighted_lasso.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_cur.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_cx.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_mc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_pca.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_regularizers.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_reweighted_lasso.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_robust_mc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_robust_pca.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/tests/test_sparse_pca.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/spalor/util/factorization_util.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SpaLoR" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/matrix_completion_movie_recomendations.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/NMF_Enron_Dataset.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user_guide/datasets.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/NMF_Facial_Recognition.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/SPCA.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/examples/sparse_basis_MNIST.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/mc_blog_post.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user_guide/matrix_completion.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/examples/rpca_background_seperation.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/spalor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/spalor.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user_guide/CUR_and_CX.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user_guide/datasets.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user_guide/datasets.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user_guide/matrix_completion.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user_guide/matrix_completion.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user_guide/reweighted_lasso.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user_guide/reweighted_lasso.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user_guide/robust_PCA.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user_guide/robust_PCA.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/user_guide/sparse_PCA.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/docs/user_guide/sparse_PCA.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/RPCA_background_forground_seperation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/examples/RPCA_background_forground_seperation.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/computed_tomography.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/examples/computed_tomography.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/movie_lens_mc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/examples/movie_lens_mc.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/movie_recomendations_based_on_few_samples.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/sparse_basis_MNIST.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/examples/sparse_basis_MNIST.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/examples/topics_identification.ipynb" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/spalor/algorithms/lasso_algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/algorithms/lasso_algorithms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spalor/algorithms/mc_algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/algorithms/mc_algorithms.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/spalor/algorithms/scpa_algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/algorithms/scpa_algorithms.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spalor/models/cur.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/models/cur.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spalor/models/irlasso.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spalor/models/mc.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/models/mc.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spalor/models/robust_mc.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/models/robust_mc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/models/cx.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/models/cx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/models/reweighted_lasso.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/models/reweighted_lasso.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/models/robust_mc.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/spalor/models/sparse_pca.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/models/sparse_pca.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spalor/util/regularizers.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/regularizers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spalor/util/util_MC.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/regularizers.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/regularizers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/tests/test_cx.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/tests/test_cx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/tests/test_sparse_pca.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/tests/test_sparse_pca.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/util/factorization_util.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/util/factorization_util.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spalor/util/randomized_matrix_computations.py" beforeDir="false" afterPath="$PROJECT_DIR$/spalor/util/randomized_matrix_computations.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,25 +49,24 @@
     <expand />
     <select />
   </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/examples/computed_tomography.ipynb">
-          <provider selected="true" editor-type-id="jupyter-editor" />
-        </entry>
-      </file>
-    </leaf>
-  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Python Script" />
         <option value="Jupyter Notebook" />
+        <option value="Python Script" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -97,7 +75,6 @@
         <option value="$PROJECT_DIR$/spalor/models/mc.py" />
         <option value="$PROJECT_DIR$/spalor/models/irlasso.py" />
         <option value="$PROJECT_DIR$/spalor/tests/test_cur.py" />
-        <option value="$PROJECT_DIR$/spalor/tests/test_cx.py" />
         <option value="$PROJECT_DIR$/spalor/tests/test_mc.py" />
         <option value="$PROJECT_DIR$/spalor/tests/test_rpca.py" />
         <option value="$PROJECT_DIR$/spalor/tests/test_robust_mc.py" />
@@ -105,13 +82,9 @@
         <option value="$PROJECT_DIR$/spalor/tests/test_robust_pca.py" />
         <option value="$PROJECT_DIR$/spalor/tests/test_regularizers.py" />
         <option value="$PROJECT_DIR$/spalor/util/regularizers.py" />
-        <option value="$PROJECT_DIR$/spalor/algorithms/lasso_algorithms.py" />
         <option value="$PROJECT_DIR$/spalor/tests/test_reweighted_lasso.py" />
-        <option value="$PROJECT_DIR$/spalor/models/reweighted_lasso.py" />
-        <option value="$PROJECT_DIR$/spalor/models/sparse_pca.py" />
         <option value="$PROJECT_DIR$/spalor/algorithms/scpa_algorithms.py" />
         <option value="$PROJECT_DIR$/spalor/util/util_MC.py" />
-        <option value="$PROJECT_DIR$/spalor/util/factorization_util.py" />
         <option value="$PROJECT_DIR$/docs/user_guide/matrix_completion.ipynb" />
         <option value="$PROJECT_DIR$/docs/user_guide/robust_PCA.ipynb" />
         <option value="$PROJECT_DIR$/docs/user_guide/sparse_PCA.ipynb" />
@@ -126,26 +99,25 @@
         <option value="$PROJECT_DIR$/docs/user_guide/nonconvex_regularizers.md" />
         <option value="$PROJECT_DIR$/examples/computed_tomography.ipynb" />
         <option value="$PROJECT_DIR$/setup.py" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/spalor.iml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-        <option value="$PROJECT_DIR$/.idea/other.xml" />
+        <option value="$PROJECT_DIR$/spalor/models/reweighted_lasso.py" />
+        <option value="$PROJECT_DIR$/spalor/algorithms/lasso_algorithms.py" />
+        <option value="$PROJECT_DIR$/spalor/util/randomized_matrix_computations.py" />
+        <option value="$PROJECT_DIR$/spalor/models/cx.py" />
+        <option value="$PROJECT_DIR$/spalor/tests/test_sparse_pca.py" />
+        <option value="$PROJECT_DIR$/spalor/models/sparse_pca.py" />
+        <option value="$PROJECT_DIR$/spalor/tests/test_cx.py" />
+        <option value="$PROJECT_DIR$/examples/ct.py" />
+        <option value="$PROJECT_DIR$/spalor/util/factorization_util.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="590" />
-    <option name="y" value="-16" />
+    <option name="x" value="291" />
+    <option name="y" value="443" />
     <option name="width" value="1001" />
     <option name="height" value="716" />
   </component>
+  <component name="ProjectId" id="1qdoMbW8Jg3F4hpiH3u8EzyXA0M" />
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
@@ -157,10 +129,6 @@
           <expand>
             <path>
               <item name="spalor" type="b2602c69:ProjectViewProjectNode" />
-              <item name="spalor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="spalor" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
             </path>
           </expand>
@@ -169,10 +137,14 @@
       </pane>
     </panes>
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../../Program Files/Python38" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -190,19 +162,7 @@
       <recent name="C:\Users\mcman\code\spalor\spalor" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.regularizers">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="spalor" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -217,6 +177,72 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="ct" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="spalor" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/ct.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="regularizers" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="spalor" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spalor" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spalor/regularizers.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="true" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="test_cx" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="spalor" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/spalor/tests" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/spalor/tests/test_cx.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="true" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -249,10 +275,15 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.regularizers" />
+        <item itemvalue="Python.regularizers" />
+        <item itemvalue="Python.test_cx" />
+        <item itemvalue="Python.ct" />
         <item itemvalue="Python.test_reweighted_lasso" />
       </list>
     </recent_temporary>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -267,14 +298,32 @@
       <workItem from="1602623049293" duration="28454000" />
       <workItem from="1602983531309" duration="1272000" />
       <workItem from="1603112626251" duration="9715000" />
-      <workItem from="1603209712687" duration="1105000" />
+      <workItem from="1603209712687" duration="1302000" />
+      <workItem from="1603236900728" duration="4745000" />
+      <workItem from="1603342304355" duration="3150000" />
+      <workItem from="1603388776274" duration="5818000" />
+      <workItem from="1603504643461" duration="8971000" />
+      <workItem from="1603817377979" duration="754000" />
+      <workItem from="1603895981535" duration="598000" />
+      <workItem from="1604419783989" duration="3610000" />
+      <workItem from="1604692485082" duration="948000" />
+      <workItem from="1604771642591" duration="2995000" />
+      <workItem from="1604942397824" duration="311000" />
     </task>
+    <task id="LOCAL-00001" summary="Started making the user guide + examples">
+      <created>1603212195725</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1603212195725</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="43087000" />
+    <option name="totallyTimeSpent" value="75184000" />
   </component>
-  <component name="TodoView">
+  <component name="TodoView" selected-index="3">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -286,11 +335,11 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14712153" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2521322" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32936078" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3997833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
@@ -301,12 +350,12 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32936078" />
-      <window_info anchor="bottom" id="Python Console" order="12" weight="0.503792" />
-      <window_info anchor="bottom" id="Jupyter" order="13" visible="true" weight="0.25135428" />
+      <window_info anchor="bottom" id="Python Console" order="12" visible="true" weight="0.18743229" />
+      <window_info anchor="bottom" id="Jupyter" order="13" weight="0.24702059" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.015991472" />
+      <window_info anchor="right" id="SciView" order="3" visible="true" weight="0.10607676" />
       <window_info anchor="right" id="Database" order="4" weight="0.32995737" />
       <window_info anchor="right" x="0" y="0" width="434" height="856" id="Documentation" order="5" side_tool="true" weight="0.4216418" />
     </layout>
@@ -314,13 +363,41 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Started making the user guide + examples" />
+    <option name="LAST_COMMIT_MESSAGE" value="Started making the user guide + examples" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/spalor$ct.coverage" NAME="ct Coverage Results" MODIFIED="1603348356860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/examples" />
     <SUITE FILE_PATH="coverage/spalor$test_reweighted_lasso.coverage" NAME="test_reweighted_lasso Coverage Results" MODIFIED="1602646259876" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/spalor/tests" />
   </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="evaluateExpression">
+      <expression>
+        <expression-string>np.linalg.norm(XX,'fro')</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>np.linalg.norm(XX)</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/Desktop/nmf.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
@@ -351,13 +428,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spalor/tests/test_mc" />
-    <entry file="file://$PROJECT_DIR$/spalor/tests/test_cx.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/spalor/tests/test_mc.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/tests/test_sparse_pca.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/spalor/tests/test_robust_mc.py">
@@ -369,44 +440,20 @@
     <entry file="file://$PROJECT_DIR$/spalor/tests/test_robust_pca.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://C:/Program Files/Python37/Lib/codecs.py">
+    <entry file="file://$PROJECT_DIR$/../../../../Program Files/Python37/Lib/codecs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="202">
           <caret line="311" selection-start-line="311" selection-end-line="311" />
         </state>
       </provider>
     </entry>
-    <entry file="file://C:/Program Files/Python37/Lib/site-packages/numpy/__init__.py">
+    <entry file="file://$PROJECT_DIR$/../../../../Program Files/Python37/Lib/site-packages/numpy/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/algorithms/lasso_algorithms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="14" column="66" selection-start-line="14" selection-start-column="66" selection-end-line="14" selection-end-column="66" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spalor/regularizers.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
           <caret line="41" column="49" lean-forward="true" selection-start-line="41" selection-start-column="49" selection-end-line="41" selection-end-column="49" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/algorithms/scpa_algorithms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="8" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/util/factorization_util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="36" lean-forward="true" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
         </state>
       </provider>
     </entry>
@@ -421,15 +468,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/user_guide/datasets.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/util/randomized_matrix_computations.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spalor/util/thresholding.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -453,39 +491,14 @@
     <entry file="file://$PROJECT_DIR$/spalor/tests/test_cur.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/tests/test_regularizers.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/matrix_completion_movie_recomendations.md" />
-    <entry file="file://$PROJECT_DIR$/examples/RPCA_background_forground_seperation.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/rpca_background_seperation.py" />
     <entry file="file://$PROJECT_DIR$/examples/NMF_Facial_Recognition.ipynb" />
     <entry file="file://$PROJECT_DIR$/examples/NMF_Enron_Dataset.ipynb" />
-    <entry file="file://$PROJECT_DIR$/spalor/tests/test_reweighted_lasso.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="15" selection-start-line="5" selection-start-column="15" selection-end-line="5" selection-end-column="15" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/examples/movie_recomendations_based_on_few_samples.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/sparse_basis_MNIST.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/movie_lens_mc.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/user_guide/matrix_completion.ipynb">
-      <provider selected="true" editor-type-id="jupyter-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/topics_identification.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/index.rst">
@@ -508,13 +521,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/models/sparse_pca.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="47" lean-forward="true" selection-start-column="47" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spalor/models/robust_pca.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -531,35 +537,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/models/reweighted_lasso.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="6" column="23" lean-forward="true" selection-start-line="6" selection-start-column="23" selection-end-line="6" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/models/mc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="561">
-          <caret line="34" column="60" lean-forward="true" selection-start-line="34" selection-start-column="60" selection-end-line="34" selection-end-column="60" />
-          <folding>
-            <element signature="e#0#45#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spalor/models/cx.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/spalor/models/cur.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -570,8 +547,138 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/algorithms/scpa_algorithms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" lean-forward="true" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/examples/computed_tomography.ipynb">
       <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../../../Program Files/Python37/Lib/site-packages/matplotlib/pyplot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="404" lean-forward="true" selection-start-line="404" selection-end-line="404" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/algorithms/lasso_algorithms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="48" selection-start-line="3" selection-start-column="48" selection-end-line="3" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/models/reweighted_lasso.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="18" column="29" selection-start-line="18" selection-start-column="29" selection-end-line="18" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/movie_lens_mc.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/topics_identification.ipynb" />
+    <entry file="file://$PROJECT_DIR$/examples/RPCA_background_forground_seperation.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/sparse_basis_MNIST.ipynb">
+      <provider selected="true" editor-type-id="jupyter-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/util/randomized_matrix_computations.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="13" lean-forward="true" selection-start-line="27" selection-start-column="13" selection-end-line="27" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/models/cx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="15" column="45" lean-forward="true" selection-start-line="15" selection-start-column="45" selection-end-line="15" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/tests/test_reweighted_lasso.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="29" lean-forward="true" selection-start-line="16" selection-start-column="29" selection-end-line="16" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/tests/test_cx.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/tests/test_regularizers.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/examples/ct.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret line="77" column="16" lean-forward="true" selection-start-line="77" selection-start-column="16" selection-end-line="77" selection-end-column="16" />
+          <folding>
+            <element signature="n#!!doc" />
+            <element signature="e#92#110#0" expanded="true" />
+            <element signature="e#309#500#0" />
+            <element signature="e#546#674#0" />
+            <element signature="e#724#1762#0" />
+            <element signature="e#1800#2286#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/tests/test_sparse_pca.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="22" selection-start-line="2" selection-start-column="22" selection-end-line="2" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/models/mc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="22" column="11" selection-start-line="22" selection-start-column="11" selection-end-line="22" selection-end-column="11" />
+          <folding>
+            <element signature="e#0#45#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/util/factorization_util.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" column="12" selection-start-line="22" selection-start-column="12" selection-end-line="22" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spalor/models/sparse_pca.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="12" lean-forward="true" selection-start-line="8" selection-start-column="12" selection-end-line="8" selection-end-column="12" />
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

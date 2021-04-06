@@ -5,14 +5,18 @@ import numpy as np
 from spalor.util.randomized_matrix_computations import *
 
 class CX():
-    def __init__(self,A,n_components):
+    def __init__(self,n_components=10):
         self.n_components=n_components
 
     def fit(self,A):
         self.A=A
-        ls=leverage_scores_QR(A)
-        self.cols=[np.argsort(ls)[-self.n_components:]]
-        self.C=self.A[:,self.cols]
+        ls=np.power(leverage_scores_QR(np.transpose(A),r=3),2)
+        ls=ls/np.sum(ls)
+        np.transpose(A)
+        #self.cols=[np.argsort(ls)[-self.n_components:]]
+        self.cols=np.random.choice(len(ls), self.n_components, p=ls)
+
+        self.C=np.squeeze(self.A[:,self.cols])
         self.X=pinv(self.C).dot(self.A)
 
 
@@ -20,7 +24,7 @@ class CX():
         ls=np.sum(np.square(self.Vt),1)
         self.cols=[np.argsort(ls)[-self.n_components:]]
         self.C=self.A[:,self.cols]
-        self.X=pinv(self.C).dot(self.A)
+        self.X=pinv
 
 
     def transform(self,A):

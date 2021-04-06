@@ -2,10 +2,13 @@ from spalor.algorithms.scpa_algorithms import *
 
 
 class SparsePCA():
-    def __init__(self):
+    def __init__(self, num_components=10, alpha1=0, alpha2=1):
+        self.num_components=num_components
+        self.alpha1=alpha1
+        self.alpha2=alpha2
         pass
-    def fit(self, M, r=5, alpha1=0, alpha2=1):
-        (U,V)=prox_grad_spca(M, r, alpha1, alpha2)
+    def fit(self, M):
+        (U,V)=prox_grad_spca(M, self.num_components, self.alpha1, self.alpha2)
         self.U=U
         self.V=V
 

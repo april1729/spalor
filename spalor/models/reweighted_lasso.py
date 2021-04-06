@@ -25,3 +25,6 @@ class ReweightedLasso():
 
     def get_params(self):
         return self.w
+
+    def coef_(self):
+        return self.w

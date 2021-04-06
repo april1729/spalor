@@ -1,20 +1,6 @@
 import numpy as np
 
 
-
-# Scad functions
-def scad(x, gamma, a):
-    return 0
-
-
-def scad_sg(x, gamma, a):
-    return 0
-
-
-def scad_prox(x, gamma, a):
-    return 0
-
-
 #MCP Functions
 def mcp(x, gamma, a):
     return min(gamma*abs(x)-x^2/(2*a), gamma^2 * a/2)

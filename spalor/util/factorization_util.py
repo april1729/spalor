@@ -3,6 +3,7 @@ import numpy as np
 def partXY(U,V, X):
     '''
     returns a vector of a sparse set of entries of UV^T
+    np.sum(np.multiply(U[X[0][:], :],V[X[1][:],:]), axis=1)
     :param U:
     :param V:
     :param X: (2,n) nparray of indices for the entries of UV^T needed
@@ -20,7 +21,7 @@ def svd_low_rank_plus_sparse(U,Sigma,V, S, eps=1e-6, max_iter=100):
     :param Sigma: (r,r)
     :param V: (d2,r)
     :param S: sparse matrix (d1, d2)
-    :return:
+    :return'
     '''
 
 
