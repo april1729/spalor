@@ -1,12 +1,13 @@
-from spalor.util.thresholding import *
+from ..regularization import *
 
 def altProjNiave(M, r, s, fTol=1e-10, maxIter=100):
     res = np.inf
-    L = np.zeros(M.shape)
     S = np.zeros(M.shape)
+    L = np.zeros(M.shape)
     for k in range(0, maxIter):
-        L = lowRankProj(M - S, r)
         S = sparseProj(M - L, s)
+        L = lowRankProj(M - S, r)
+
         res0 = res
         res = np.linalg.norm(M - (L + S), ord='fro')
         if (res0 - res) / res < fTol:
@@ -49,13 +50,13 @@ def altProj(M, r=None, eps=1e-5, beta=None):
     n = min(M.shape)
 
     if beta is None:
-        beta = 1 / n ** 0.5
+        beta = 10 / n ** 0.5
 
     threshold = beta * singularValue(M, 0)
 
     if r is None:
-        r = n
-
+        r = n-2
+    print(r)
     L = np.zeros(M.shape)
     S = sparseHardThresholding(M - L, threshold)
 

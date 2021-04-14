@@ -1,6 +1,6 @@
 import numpy as np
-from spalor.models.reweighted_lasso import *
-from spalor.algorithms.lasso_algorithms import *
+from ..models.reweighted_lasso import *
+from ..algorithms.lasso_algorithms import *
 
 
 def test_lasso():

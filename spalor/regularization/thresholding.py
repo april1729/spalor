@@ -11,7 +11,7 @@ def sparseProj(x, s):
     :return: nparray of the same size as x with ||x||_0 <=s
     '''
     x_out=x;
-    threshold=np.partition(x_out.flatten(), -s)[-s]
+    threshold=np.sort(abs(x_out.flatten()))[-s]
     return sparseHardThresholding(x_out, threshold)
 
 

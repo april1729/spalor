@@ -11,7 +11,7 @@ setuptools.setup(
      description="A python library for sparse and low rank matrix methods used in machine learning, like Matrix Completion, Robust PCA, and CUR factorizations",
      long_description=long_description,
      long_description_content_type="text/markdown",
-     url="https://github.com/april1729/SpaLoR",
+     url="www.spalor.org",
      packages=setuptools.find_packages(),
      classifiers=[
          "Programming Language :: Python :: 3",
