@@ -1,4 +1,4 @@
-from ..algorithms.rpca_algorithms import *
+from spalor.algorithms.rpca_algorithms import *
 from scipy.sparse.linalg import svds
 class RPCA():
     def __init__(self, r=10, sparsity=0.05):

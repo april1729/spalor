@@ -15,7 +15,9 @@ def mc_test(d1,d2,r,p):
 	M=rand_low_rank_mat(d1,d2,r)
 	X=np.concatenate((np.random.randint(d1, size=(n,1)), np.random.randint(d2, size=(n,1))), axis=1)
 	y=M[X[:,0],X[:,1]]
+	X=X.transpose()
 	return (M,X,y)
+
 
 def rpca_test(d1,d2,r,alpha):
 	L=rand_low_rank_mat(d1,d2,r)

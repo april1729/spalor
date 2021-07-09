@@ -1,5 +1,5 @@
 from spalor.algorithms.mc_algorithms import *
-from ..util.factorization_util import *
+from spalor.util.factorization_util import *
 
 
 class MC:
