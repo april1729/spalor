@@ -1,4 +1,4 @@
-from scipy.sparse.linalg import svds
+from .scipy.sparse.linalg import svds
 from numpy.linalg import pinv
 import numpy as np
 

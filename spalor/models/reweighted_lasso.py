@@ -1,5 +1,5 @@
 import numpy as np
-from spalor.algorithms.lasso_algorithms import *
+from .spalor.algorithms.lasso_algorithms import *
 class ReweightedLasso():
 # TODO: Add a cross validation routine to select the best value of alpha
 

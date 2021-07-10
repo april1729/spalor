@@ -2,8 +2,8 @@ from math import *
 
 from scipy.sparse import coo_matrix
 
-from spalor.regularization.thresholding import *
-from spalor.util.factorization_util import *
+from ..regularization.thresholding import *
+from ..util.factorization_util import *
 import numpy as np
 from scipy.optimize import minimize
 

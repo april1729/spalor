@@ -1,4 +1,4 @@
-from spalor.regularizers import *
+from ..regularizers import *
 
 
 def sparse_prox_grad(XX, Xy, alpha, maxIter=1000, eps=1e-4):

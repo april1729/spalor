@@ -1,4 +1,4 @@
-from spalor.algorithms.scpa_algorithms import *
+from ...algorithms.scpa_algorithms import *
 
 
 class SPCA():

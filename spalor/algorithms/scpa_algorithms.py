@@ -1,4 +1,4 @@
-from spalor.regularization import *
+from ..regularization import *
 import numpy as np
 def prox_grad_spca(M,r,alpha1, alpha2, max_iter=100, eps=1e-6):
     (d1,d2)=M.shape
