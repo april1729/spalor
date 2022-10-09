@@ -31,7 +31,7 @@
     <header>
       <div id="logo-container">
           
-          <h1>SpaLoR</h1>
+          <h1><a href="../index.html"> SpaLoR </a> </h1>
           
       </div>
       <div id="project-container">
@@ -48,11 +48,70 @@
           
   <section id="spalor-util">
 <h1>spalor.util<a class="headerlink" href="#spalor-util" title="Permalink to this headline">¶</a></h1>
-<section id="spalor-util-factorization-util-module">
-<h2>spalor.util.factorization_util module<a class="headerlink" href="#spalor-util-factorization-util-module" title="Permalink to this headline">¶</a></h2>
+<section id="module-spalor.util.factorization_util">
+<span id="spalor-util-factorization-util-module"></span><h2>spalor.util.factorization_util module<a class="headerlink" href="#module-spalor.util.factorization_util" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.util.factorization_util.partXY">
+<span class="sig-prename descclassname"><span class="pre">spalor.util.factorization_util.</span></span><span class="sig-name descname"><span class="pre">partXY</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/util/factorization_util.html#partXY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.util.factorization_util.partXY" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a vector of a sparse set of entries of UV^T
+np.sum(np.multiply(U[X[0][:], :],V[X[1][:],:]), axis=1)
+:param U:
+:param V:
+:param X: (2,n) nparray of indices for the entries of UV^T needed
+:return: y (n,) nparray of entries of UV^T</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.util.factorization_util.svd_from_factorization">
+<span class="sig-prename descclassname"><span class="pre">spalor.util.factorization_util.</span></span><span class="sig-name descname"><span class="pre">svd_from_factorization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/util/factorization_util.html#svd_from_factorization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.util.factorization_util.svd_from_factorization" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orthonormalizes U and V to obtain the singular decomposition of UV^T</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> – (d1,r) numpy array</p></li>
+<li><p><strong>V</strong> – (d2,r) numpy array</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>(U,Sigma,V) - the singular value decomposition of UV^T</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.util.factorization_util.svd_low_rank_plus_sparse">
+<span class="sig-prename descclassname"><span class="pre">spalor.util.factorization_util.</span></span><span class="sig-name descname"><span class="pre">svd_low_rank_plus_sparse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-06</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_iter</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/util/factorization_util.html#svd_low_rank_plus_sparse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.util.factorization_util.svd_low_rank_plus_sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses power iteration method to find the truncated singular value decompositon of the rank-r approximation to the
+matrix U Sigma V^T +S efficiently</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>U</strong> – (d1,r)</p></li>
+<li><p><strong>Sigma</strong> – (r,r)</p></li>
+<li><p><strong>V</strong> – (d2,r)</p></li>
+<li><p><strong>S</strong> – sparse matrix (d1, d2)</p></li>
+</ul>
+</dd>
+</dl>
+<p>:return’</p>
+</dd></dl>
+
 </section>
-<section id="spalor-util-randomized-matrix-computations-module">
-<h2>spalor.util.randomized_matrix_computations module<a class="headerlink" href="#spalor-util-randomized-matrix-computations-module" title="Permalink to this headline">¶</a></h2>
+<section id="module-spalor.util.randomized_matrix_computations">
+<span id="spalor-util-randomized-matrix-computations-module"></span><h2>spalor.util.randomized_matrix_computations module<a class="headerlink" href="#module-spalor.util.randomized_matrix_computations" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.util.randomized_matrix_computations.leverage_scores_QR">
+<span class="sig-prename descclassname"><span class="pre">spalor.util.randomized_matrix_computations.</span></span><span class="sig-name descname"><span class="pre">leverage_scores_QR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/util/randomized_matrix_computations.html#leverage_scores_QR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.util.randomized_matrix_computations.leverage_scores_QR" title="Permalink to this definition">¶</a></dt>
+<dd><p>‘(m,n)=X.shape
+Q,R=np.linalg.qr(X)
+ls= np.square(np.apply_along_axis(np.linalg.norm, 1,Q))/n</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.util.randomized_matrix_computations.leverage_scores_aprx">
+<span class="sig-prename descclassname"><span class="pre">spalor.util.randomized_matrix_computations.</span></span><span class="sig-name descname"><span class="pre">leverage_scores_aprx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/util/randomized_matrix_computations.html#leverage_scores_aprx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.util.randomized_matrix_computations.leverage_scores_aprx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </section>
 </section>
 

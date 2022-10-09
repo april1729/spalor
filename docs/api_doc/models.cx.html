@@ -31,7 +31,7 @@
     <header>
       <div id="logo-container">
           
-          <h1>SpaLoR</h1>
+          <h1><a href="../index.html"> SpaLoR </a> </h1>
           
       </div>
       <div id="project-container">
@@ -48,6 +48,44 @@
           
   <section id="spalor-models-cx">
 <h1>spalor.models.CX<a class="headerlink" href="#spalor-models-cx" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="spalor.models.CX">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">CX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leverage_scores_QR'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Dimensionality reduction based on a low-rank matrix faactorization:</dt><dd><p>A=C*X</p>
+</dd>
+</dl>
+<p>where C consists of columns sampled from A, and X=(C’<a href="#id1"><span class="problematic" id="id2">*</span></a>C)^-1 <a href="#id3"><span class="problematic" id="id4">*</span></a>C’ <a href="#id5"><span class="problematic" id="id6">*</span></a>A.</p>
+<p>Typically, the columns sampled to get C are selected at random with probabilites proportional to the leverage scores.</p>
+<dl class="simple">
+<dt>n_components<span class="classifier">int, default=10</span></dt><dd><p>Number of columns to sample.</p>
+</dd>
+<dt>solver<span class="classifier">{‘leverage_scores_QR’, ‘leverage_scores_approx’, ‘group_sparse_regression’}, default=’leverage_scores_QR’</span></dt><dd><p>choice of three different solvers.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>d1<span class="classifier">int</span></dt><dd><p>number or rows in the original matrix</p>
+</dd>
+<dt>d2<span class="classifier">int</span></dt><dd><p>number of columns in the original matrix</p>
+</dd>
+<dt>cols<span class="classifier">list</span></dt><dd><p>list containing indices of columns sampled</p>
+</dd>
+<dt>C<span class="classifier">ndarray, shape = (d1,n_components)</span></dt><dd><p>Columns sampled</p>
+</dd>
+<dt>X<span class="classifier">ndarray, shape = (n_components, d2)</span></dt><dd><p>Score matrix, often used for classification. Coordinates in the lower dimensional column space</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spalor.models.CX.fit_from_SVD">
+<span class="sig-name descname"><span class="pre">fit_from_SVD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX.fit_from_SVD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX.fit_from_SVD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to fit the model when the singular value decomposition is already known.  Knowing the SVD a priori greatly reduces the computional time of the method.</p>
+<p>U : ndarray
+S : ndarray
+V : ndarray</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 
 
