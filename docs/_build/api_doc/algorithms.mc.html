@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: spalor.algorithms.mc_algorithms</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../genindex.html"/>
+
+  <link rel="stylesheet" href="../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>SpaLoR</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <section id="module-spalor.algorithms.mc_algorithms">
+<span id="spalor-algorithms-mc-algorithms"></span><h1>spalor.algorithms.mc_algorithms<a class="headerlink" href="#module-spalor.algorithms.mc_algorithms" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.algorithms.mc_algorithms.alt_min">
+<span class="sig-prename descclassname"><span class="pre">spalor.algorithms.mc_algorithms.</span></span><span class="sig-name descname"><span class="pre">alt_min</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Omega</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/algorithms/mc_algorithms.html#alt_min"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.algorithms.mc_algorithms.alt_min" title="Permalink to this definition">¶</a></dt>
+<dd><p>A very simple algorithm for matrix completion via alternating minimization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<em>int</em>) – number or rows in matrix</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of columns in matrix</p></li>
+<li><p><strong>Omega</strong> (<em>np array</em>) – array with 2 columns and many rows, indicating indices of the matrix you have a measurement of</p></li>
+<li><p><strong>known</strong> (<em>np array</em>) – vector of measurements, in same order as ‘known’</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.algorithms.mc_algorithms.alt_proj">
+<span class="sig-prename descclassname"><span class="pre">spalor.algorithms.mc_algorithms.</span></span><span class="sig-name descname"><span class="pre">alt_proj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/algorithms/mc_algorithms.html#alt_proj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.algorithms.mc_algorithms.alt_proj" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>A very simple matrix completion algorithm comprising of two steps at each iteration:</dt><dd><ul class="simple">
+<li><p>project L onto set of matrices satisfying the measurements</p></li>
+<li><p>project L onto the set of rank r matrices</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<em>int</em>) – number or rows in matrix</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of columns in matrix</p></li>
+<li><p><strong>r</strong> (<em>int</em>) – target rank of matrix.</p></li>
+<li><p><strong>X</strong> (<em>np array</em>) – array with 2 columns and many rows, indicating indices of the matrix you have a measurement of</p></li>
+<li><p><strong>y</strong> (<em>np array</em>) – vector of measurements, in same order as ‘known’</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id1"><span class="brackets">2</span></dt>
+<dd><p>Tanner, J., &amp; Wei, K. (2013). Normalized iterative hard thresholding for matrix completion. SIAM Journal on Scientific Computing, 35(5), S104-S125.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.algorithms.mc_algorithms.lmafit">
+<span class="sig-prename descclassname"><span class="pre">spalor.algorithms.mc_algorithms.</span></span><span class="sig-name descname"><span class="pre">lmafit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/algorithms/mc_algorithms.html#lmafit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.algorithms.mc_algorithms.lmafit" title="Permalink to this definition">¶</a></dt>
+<dd><p>A rank-constrained matrix completion algorithm that uses a successive over-relaxation scheme.</p>
+<p>Links for more details:
+- <a class="reference external" href="http://lmafit.blogs.rice.edu/">http://lmafit.blogs.rice.edu/</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d1</strong> (<em>int</em>) – number or rows in matrix</p></li>
+<li><p><strong>d2</strong> (<em>int</em>) – number of columns in matrix</p></li>
+<li><p><strong>r</strong> (<em>int</em>) – target rank of matrix.</p></li>
+<li><p><strong>known</strong> (<em>np array</em>) – array with 2 columns and many rows, indicating indices of the matrix you have a measurement of</p></li>
+<li><p><strong>data</strong> (<em>np array</em>) – vector of measurements, in same order as ‘known’</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id2"><span class="brackets">1</span></dt>
+<dd><p>Wen, Z., Yin, W. &amp; Zhang, Y. Solving a low-rank factorization model for matrix completion by a nonlinear successive over-relaxation algorithm. Math. Prog. Comp. 4, 333–361 (2012). <a class="reference external" href="https://doi.org/10.1007/s12532-012-0044-1">https://doi.org/10.1007/s12532-012-0044-1</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.algorithms.mc_algorithms.svt">
+<span class="sig-prename descclassname"><span class="pre">spalor.algorithms.mc_algorithms.</span></span><span class="sig-name descname"><span class="pre">svt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">beta_max</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">known</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eps</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/algorithms/mc_algorithms.html#svt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.algorithms.mc_algorithms.svt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Singular value thresholding for matrix completion</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m</strong> (<em>int</em>) – number or rows in matrix</p></li>
+<li><p><strong>n</strong> (<em>int</em>) – number of columns in matrix</p></li>
+<li><p><strong>beta_max</strong> (<em>float</em>) – largest singular value to keep.  Larger values mean less regularization, and less estimtor bias</p></li>
+<li><p><strong>known</strong> (<em>np array</em>) – array with 2 columns and many rows, indicating indices of the matrix you have a measurement of</p></li>
+<li><p><strong>data</strong> (<em>np array</em>) – vector of measurements, in same order as ‘known’</p></li>
+<li><p><strong>eps</strong> (<em>float</em>) – stopping criteria.  (default: 1e-5)</p></li>
+<li><p><strong>r_max</strong> (<em>int</em>) – upper bound on the rank of the matrix.  The smaller this is, the faster the algorithm will be</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets">3</span></dt>
+<dd><p>Cai, J. F., Candès, E. J., &amp; Shen, Z. (2010). A singular value thresholding algorithm for matrix completion. SIAM Journal on optimization, 20(4), 1956-1982.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/datasets.html">SpaLoR Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="spalor.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="models.html">spalor.models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="algorithms.html">spalor.algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regularization.html">spalor.regularization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets.html">spalor.datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="util.html">spalor.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../_sources/api_doc/algorithms.mc.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

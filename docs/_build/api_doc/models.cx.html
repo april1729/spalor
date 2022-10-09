@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: spalor.models.CX</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../genindex.html"/>
+
+  <link rel="stylesheet" href="../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1>SpaLoR</h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <section id="spalor-models-cx">
+<h1>spalor.models.CX<a class="headerlink" href="#spalor-models-cx" title="Permalink to this headline">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="spalor.models.CX">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">CX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leverage_scores_QR'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Dimensionality reduction based on a low-rank matrix faactorization:</dt><dd><p>A=C*X</p>
+</dd>
+</dl>
+<p>where C consists of columns sampled from A, and X=(C’<a href="#id1"><span class="problematic" id="id2">*</span></a>C)^-1 <a href="#id3"><span class="problematic" id="id4">*</span></a>C’ <a href="#id5"><span class="problematic" id="id6">*</span></a>A.</p>
+<p>Typically, the columns sampled to get C are selected at random with probabilites proportional to the leverage scores.</p>
+<dl class="simple">
+<dt>n_components<span class="classifier">int, default=10</span></dt><dd><p>Number of columns to sample.</p>
+</dd>
+<dt>solver<span class="classifier">{‘leverage_scores_QR’, ‘leverage_scores_approx’, ‘group_sparse_regression’}, default=’leverage_scores_QR’</span></dt><dd><p>choice of three different solvers.</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>d1<span class="classifier">int</span></dt><dd><p>number or rows in the original matrix</p>
+</dd>
+<dt>d2<span class="classifier">int</span></dt><dd><p>number of columns in the original matrix</p>
+</dd>
+<dt>cols<span class="classifier">list</span></dt><dd><p>list containing indices of columns sampled</p>
+</dd>
+<dt>C<span class="classifier">ndarray, shape = (d1,n_components)</span></dt><dd><p>Columns sampled</p>
+</dd>
+<dt>X<span class="classifier">ndarray, shape = (n_components, d2)</span></dt><dd><p>Score matrix, often used for classification. Coordinates in the lower dimensional column space</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spalor.models.CX.fit_from_SVD">
+<span class="sig-name descname"><span class="pre">fit_from_SVD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX.fit_from_SVD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX.fit_from_SVD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used to fit the model when the singular value decomposition is already known.  Knowing the SVD a priori greatly reduces the computional time of the method.</p>
+<p>U : ndarray
+S : ndarray
+V : ndarray</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/datasets.html">SpaLoR Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="spalor.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="models.html">spalor.models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="algorithms.html">spalor.algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="regularization.html">spalor.regularization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="datasets.html">spalor.datasets</a></li>
+<li class="toctree-l3"><a class="reference internal" href="util.html">spalor.util</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../_sources/api_doc/models.cx.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>
