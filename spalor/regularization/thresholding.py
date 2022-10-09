@@ -14,7 +14,6 @@ def sparseProj(x, s):
     threshold=np.sort(abs(x_out.flatten()))[-s]
     return sparseHardThresholding(x_out, threshold)
 
-
 def sparseHardThresholding(x, t):
     xThresh = x
     xThresh[abs(xThresh) < t] = 0
@@ -50,7 +49,6 @@ def lowRankSoftThresholding(x,t,r=None):
 def singularValue(M, i):
     (u,s,v)=svds(M,i+1)
     return min(s)
-
 
 if __name__ == "__main__":
     x_test=np.array([[1,2,3],[4,5,6]])

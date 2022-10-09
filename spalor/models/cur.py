@@ -1,8 +1,8 @@
-from .scipy.sparse.linalg import svds
+from scipy.sparse.linalg import svds
 from numpy.linalg import pinv
 import numpy as np
 
-class CUR():
+class CUR:
     def __init__(self,A,n_rows=0,n_cols=0, r=0):
         self.A=A
         (d1,d2)=A.shape
@@ -45,8 +45,15 @@ class CUR():
         self.U=pinv(self.C).dot(self.A).dot(pinv(self.R))
 
 
-    def transform(self):
-        pass
+    def transform(X):
+        return np.squeeze(X[:,self.cols])
+
+    def fit_transform(X):
+        self.fit(X)
+        return self.C
+
+    def inverse_transform(X):
+        return self.X.dot(self.U).dot(self.R)
 
     def get_params(self):
         return (self.C, self.U, self.R)

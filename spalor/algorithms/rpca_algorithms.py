@@ -74,7 +74,6 @@ def altProj(M, r=None, eps=1e-5, beta=None):
             return L, S
     return L, S
 
-
 def altNonconvexThresh(M, beta, lambdas, maxIter=1000):
 
     L = np.zeros(M.shape)

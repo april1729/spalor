@@ -37,5 +37,8 @@ def svd_from_factorization(U,V):
     :param V: (d2,r) numpy array
     :return: (U,Sigma,V) - the singular value decomposition of UV^T
     '''
-
-    pass
+    (qu,ru)=np.linalg.qr(U)
+    (qv,rv)=np.linalg.qr(V)
+    [ur,sr,vr]=np.linalg.svd(ru.dot(rv.T))
+    return (qu.dot(ur), sr, qv.dot(vr.T))
+#%%
