@@ -49,12 +49,11 @@
           
   <section id="robust-principle-component-analysis">
 <h1>Robust Principle Component Analysis<a class="headerlink" href="#robust-principle-component-analysis" title="Permalink to this headline">¶</a></h1>
-<p>While PCA is a powerful technique, it has been shown to be less reliable
-when just a sparse set of data points are grossly corrupted, and so the
-goal of RPCA is to identify and remove such corruptions by separating
-the data matrix into the sum of a low rank and sparse matrix. For
-example, consider the low rank matrix from the matrix completion example
-with a few entries changed</p>
+<p>While PCA is a powerful technique, it’s less reliable when just a sparse
+set of data points are grossly corrupted, and so the goal of RPCA is to
+identify and remove outliers by separating the data matrix into the sum
+of a low rank and sparse matrix. For example, consider the low rank
+matrix from the matrix completion example with a few entries changed</p>
 <div class="math notranslate nohighlight">
 \[\begin{split}\begin{bmatrix}
         1 &amp;\color{purple}{\textbf{17}}&amp; 3 &amp; 4\\
@@ -76,19 +75,35 @@ with a few entries changed</p>
          &amp;  &amp;   &amp;  18\\
          &amp; 11 &amp;  &amp;  \\
         \end{bmatrix}}\end{split}\]</div>
-<p>Formally, we pose this as the nonconvex optimization problem:
-:raw-latex:<a href="#id1"><span class="problematic" id="id2">`</span></a>begin{equation}</p>
-<blockquote>
-<div><blockquote>
-<div><dl class="simple">
-<dt>begin{array}{ll}</dt><dd><p>underset{L,Sin mathbb{R}^{d_1,d_2}}{text{minimize }}&amp;  text{rank}(L)+lambda_0 ||S||_0\
-text{subject to} &amp; L+S=M</p>
-</dd>
-</dl>
-<p>end{array}</p>
-</div></blockquote>
-<p>end{equation}`</p>
-</div></blockquote>
+<p>RPCA solves the nonconvex optimization problem:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{equation}
+            \begin{array}{ll}
+                 \underset{L,S\in \mathbb{R}^{d_1,d_2}}{\text{minimize }}&amp;  \text{rank}(L)+\lambda_0 ||S||_0\\
+                 \text{subject to} &amp; L+S=M
+            \end{array}
+        \end{equation}\end{split}\]</div>
+<section id="the-rpca-class">
+<h2>The <code class="docutils literal notranslate"><span class="pre">RPCA</span></code> class<a class="headerlink" href="#the-rpca-class" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">spalor.models</span> <span class="kn">import</span> <span class="n">RPCA</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span>
+<span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.1</span>
+
+<span class="n">rpca</span><span class="o">=</span><span class="n">RPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">rpca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">A</span><span class="o">+</span><span class="n">S</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Denoised matrix error: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rpca</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">()</span><span class="o">-</span><span class="n">A</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Outliersm error: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rpca</span><span class="o">.</span><span class="n">outliers_</span><span class="o">-</span><span class="n">S</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Denoised</span> <span class="n">matrix</span> <span class="n">error</span><span class="p">:</span>
+ <span class="mf">4.94329075927598e-16</span>
+<span class="n">Outliersm</span> <span class="n">error</span><span class="p">:</span>
+ <span class="mf">4.510225048268804e-16</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -114,28 +129,22 @@ text{subject to} &amp; L+S=M</p>
   
     <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datasets.html">SpaLoR Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api_doc/spalor.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/models.html">spalor.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/algorithms.html">spalor.algorithms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/regularization.html">spalor.regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/datasets.html">spalor.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/util.html">spalor.util</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
 </ul>
 </li>
 </ul>

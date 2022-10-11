@@ -48,40 +48,33 @@
           
   <section id="api-reference">
 <h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
-<section id="subpackages">
-<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<section id="spalor-models">
+<h2>spalor.models<a class="headerlink" href="#spalor-models" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="models.html">spalor.models</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="models.mc.html">spalor.models.MC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models.robust_pca.html">spalor.models.RPCA</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models.cx.html">spalor.models.CX</a></li>
-<li class="toctree-l2"><a class="reference internal" href="models.cur.html">spalor.models.CUR</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.mc.html">MC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.robust_pca.html">RPCA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.cx.html">CX</a></li>
+<li class="toctree-l1"><a class="reference internal" href="models.cur.html">CUR</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="algorithms.html">spalor.algorithms</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="algorithms.mc.html">spalor.algorithms.mc_algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="algorithms.robust_pca.html">spalor.algorithms.rpca_algorithms</a></li>
-<li class="toctree-l2"><a class="reference internal" href="algorithms.cx.html">spalor.algorithms.cx_algorithms</a></li>
+</div>
+</section>
+<section id="spalor-algorithms">
+<h2>spalor.algorithms<a class="headerlink" href="#spalor-algorithms" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.mc.html">mc_algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.robust_pca.html">rpca_algorithms</a></li>
+<li class="toctree-l1"><a class="reference internal" href="algorithms.cx.html">cx_algorithms</a></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="regularization.html">spalor.regularization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="regularization.html#module-spalor.regularization.regularizers">spalor.regularization.regularizers module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="regularization.html#module-spalor.regularization.thresholding">spalor.regularization.thresholding module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="datasets.html">spalor.datasets</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="datasets.html#module-spalor.datasets.collaborative_filtering">spalor.datasets.collaborative_filtering module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datasets.html#module-spalor.datasets.fish_videos">spalor.datasets.fish_videos module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datasets.html#module-spalor.datasets.stt">spalor.datasets.stt module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datasets.html#module-spalor.datasets.synthetic_test_data">spalor.datasets.synthetic_test_data module</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="util.html">spalor.util</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="util.html#module-spalor.util.factorization_util">spalor.util.factorization_util module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="util.html#module-spalor.util.randomized_matrix_computations">spalor.util.randomized_matrix_computations module</a></li>
-</ul>
-</li>
+</div>
+</section>
+<section id="spalor-matrix-tools">
+<h2>spalor.matrix_tools<a class="headerlink" href="#spalor-matrix-tools" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="matrix_tools.factorization_util.html">Factorization tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="matrix_tools.leverage_score.html">leverage_score</a></li>
 </ul>
 </div>
 </section>
@@ -110,28 +103,22 @@
   
     <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/datasets.html">SpaLoR Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="models.html">spalor.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="algorithms.html">spalor.algorithms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularization.html">spalor.regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datasets.html">spalor.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="util.html">spalor.util</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spalor-matrix-tools">spalor.matrix_tools</a></li>
 </ul>
 </li>
 </ul>

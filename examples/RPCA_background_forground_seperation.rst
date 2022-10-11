@@ -1,9 +1,7 @@
-
 .. code:: ipython3
 
     import sys
     sys.path.append('../')
-    from datasets.data_loader import *
     from RPCA.algorithms import *
     import matplotlib.pyplot as plt
     import matplotlib.animation as animation
@@ -11,8 +9,6 @@
     v=load_video("../datasets/videos/escalator.avi")
     (n_frames,d1,d2)=v.shape
     v=v.reshape(n_frames, d1*d2)
-    
-
 
 
 ::
@@ -22,15 +18,15 @@
 
     ModuleNotFoundError                       Traceback (most recent call last)
 
-    <ipython-input-1-39d45b716eca> in <module>
+    <ipython-input-2-c35086c4c12c> in <module>
           1 import sys
           2 sys.path.append('../')
-    ----> 3 from datasets.data_loader import *
+    ----> 3 from spalor.datasets.data_loader import *
           4 from RPCA.algorithms import *
           5 import matplotlib.pyplot as plt
 
 
-    ModuleNotFoundError: No module named 'datasets'
+    ModuleNotFoundError: No module named 'spalor.datasets.data_loader'
 
 
 .. code:: ipython3

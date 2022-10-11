@@ -1,3 +1,4 @@
+=======
 SpaLoR
 =======
 A Python Package for Sparse and Low Rank Machine Learning Methods
@@ -25,7 +26,7 @@ Install from source:
 Site Map
 #########
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
    
    user_guide/index
    examples/index

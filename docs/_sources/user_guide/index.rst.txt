@@ -2,6 +2,8 @@ User Guide
 ==================================
 
 .. toctree::
-   :glob: 
-
-   *
+   :maxdepth: 1
+   
+   matrix_completion
+   robust_PCA
+   Leverage_CX_CUR

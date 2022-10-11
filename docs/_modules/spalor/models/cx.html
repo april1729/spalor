@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: spalor.models.cx</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1><a href="../../../index.html"> SpaLoR </a> </h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <h1>Source code for spalor.models.cx</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">svds</span>
+<span class="kn">from</span> <span class="nn">numpy.linalg</span> <span class="kn">import</span> <span class="n">pinv</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">spalor.matrix_tools</span> <span class="kn">import</span> <span class="n">leverage_score</span>
+
+
+<div class="viewcode-block" id="CX"><a class="viewcode-back" href="../../../api_doc/models.cx.html#spalor.models.CX">[docs]</a><span class="k">class</span> <span class="nc">CX</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Dimensionality reduction based on a low-rank matrix faactorization:</span>
+<span class="sd">        A=C*X</span>
+<span class="sd">    where C consists of columns sampled from A, and X=(C&#39;*C)^-1 *C&#39; *A.</span>
+
+<span class="sd">    Typically, the columns sampled to get C are selected at random with probabilites proportional to the leverage scores.</span>
+
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    ------------</span>
+<span class="sd">    n_components : int, default=10</span>
+<span class="sd">        Number of columns to sample.</span>
+
+<span class="sd">    method : {&#39;exact&#39;, &#39;approximate&#39;, &#39;random&#39;}, default=&#39;exact&#39;</span>
+<span class="sd">        method to select rows.</span>
+<span class="sd">            - &quot;exact&quot;: randomly select by leverage scores</span>
+<span class="sd">            - &quot;approximate&quot; : randomly select columns by approximated leverage scores</span>
+<span class="sd">            - &quot;random&quot; : randomly select columns</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">    ------------</span>
+<span class="sd">    d1 : int</span>
+<span class="sd">        number or rows in the original matrix</span>
+<span class="sd">    d2 : int</span>
+<span class="sd">        number of columns in the original matrix</span>
+<span class="sd">    cols : list </span>
+<span class="sd">        list containing indices of columns sampled</span>
+<span class="sd">    C : ndarray, shape = (d1,n_components)</span>
+<span class="sd">        Columns sampled</span>
+<span class="sd">    X : ndarray, shape = (n_components, d2)</span>
+<span class="sd">        Score matrix, often used for classification. Coordinates in the lower dimensional column space</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">    ---------</span>
+<span class="sd">    ```</span>
+<span class="sd">    A=np.array([[1, 1, 2, 2],</span>
+<span class="sd">        [2, 1, 3, 5],</span>
+<span class="sd">        [1, 2, 3, 1],</span>
+<span class="sd">        [3, 1, 4, 8]], dtype=float)</span>
+<span class="sd">    cx=CX(n_components=2)</span>
+<span class="sd">    X=cx.fit_transform(A)</span>
+<span class="sd">    print(&quot;C:\n&quot;, cx.C)</span>
+<span class="sd">    print(&quot;X:\n&quot;, cx.X)</span>
+<span class="sd">    print(&quot;columns used: \n&quot;, cx.cols)</span>
+<span class="sd">    ```</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;approximate&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span> <span class="o">=</span> <span class="n">n_components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="o">=</span><span class="n">method</span>
+
+<div class="viewcode-block" id="CX.fit"><a class="viewcode-back" href="../../../api_doc/models.cx.html#spalor.models.CX.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">svdA</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Fit CX model</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        A: numpy array with shape (n,d)</span>
+<span class="sd">            Matrix to fit model to</span>
+<span class="sd">        cols : (optional) list or 1d numpy array</span>
+<span class="sd">            list of columns to use.  If specified, `method` and `n_components` are ignored</span>
+<span class="sd">        svdA : (optional) length 3 tuple </span>
+<span class="sd">            the output of `np.linalg.svd` or `scipy.sparse.linalg.svds`.  If you already have the svd of A, specifying it saves on computation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        ---------</span>
+<span class="sd">        updated model</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
+
+        <span class="n">n</span><span class="o">=</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">cols</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+            <span class="k">if</span> <span class="n">svdA</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">ls_input</span><span class="o">=</span><span class="n">svdA</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ls_input</span><span class="o">=</span><span class="n">A</span>
+
+            <span class="n">ls</span><span class="o">=</span><span class="n">leverage_score</span><span class="p">(</span><span class="n">ls_input</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_components</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">method</span><span class="p">)</span> <span class="o">**</span><span class="mi">2</span>
+            <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="o">/</span><span class="n">ls</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ls</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">ls</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="o">=</span><span class="n">cols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Cpinv</span><span class="o">=</span><span class="n">pinv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Cpinv</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="CX.transform"><a class="viewcode-back" href="../../../api_doc/models.cx.html#spalor.models.CX.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Extract columns of A</span>
+
+<span class="sd">        Parameters:</span>
+<span class="sd">        -----------</span>
+<span class="sd">        A: numpy array with shape (n,d)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        ---------</span>
+<span class="sd">        Columns of A corresponding to the ones use in the CX model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">A</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cols</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="CX.fit_transform"><a class="viewcode-back" href="../../../api_doc/models.cx.html#spalor.models.CX.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">svdA</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Fit and return columns</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">svdA</span><span class="o">=</span><span class="n">svdA</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">C</span></div>
+
+<div class="viewcode-block" id="CX.inverse_transform"><a class="viewcode-back" href="../../../api_doc/models.cx.html#spalor.models.CX.inverse_transform">[docs]</a>    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">C</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Infer entire matrix from subset of columns</span>
+
+<span class="sd">        Params:</span>
+<span class="sd">        ------</span>
+<span class="sd">        C: numpy array with shape(n, n_components)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">        -------</span>
+<span class="sd">        ndarray with shape (n,d)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="n">C</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">get_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">n_components</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">A</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+    <span class="n">cx</span><span class="o">=</span><span class="n">CX</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">X</span><span class="o">=</span><span class="n">cx</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cx</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cx</span><span class="o">.</span><span class="n">X</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;columns used: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cx</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+
+
+</pre></div>
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/matrix_completion.html#mathematical-details">Mathematical details</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/robust_PCA.html">Robust Principle Component Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/robust_PCA.html#the-rpca-class">The <code class="docutils literal notranslate"><span class="pre">RPCA</span></code> class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cx-class">The <code class="docutils literal notranslate"><span class="pre">CX</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cur-class">The <code class="docutils literal notranslate"><span class="pre">CUR</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#computing-leverage-sores">Computing leverage sores</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/spalor.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-models">spalor.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.mc.html">MC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.robust_pca.html">RPCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cx.html">CX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cur.html">CUR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.mc.html">mc_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.robust_pca.html">rpca_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.cx.html">cx_algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.factorization_util.html">Factorization tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.leverage_score.html">leverage_score</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

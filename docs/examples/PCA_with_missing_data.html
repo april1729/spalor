@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: PCA with Missing Data</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../genindex.html"/>
+
+  <link rel="stylesheet" href="../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1><a href="../index.html"> SpaLoR </a> </h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <section id="pca-with-missing-data">
+<h1>PCA with Missing Data<a class="headerlink" href="#pca-with-missing-data" title="Permalink to this headline">¶</a></h1>
+<p>In this example, we’re going to use the Wisconsin breast cancer
+diagnostics dataset, which is included as an example dataset in sci-kit
+learn. It consists of 30 morphological features from 569 breast tumour
+biopsies, along with a label of “malignant” or “benign”.</p>
+<p>We start by loading in the data and necessary packages.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_breast_cancer</span>
+
+<span class="n">breast_cancer</span> <span class="o">=</span> <span class="n">load_breast_cancer</span><span class="p">()</span>
+<span class="n">normalized_data</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">breast_cancer</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There’s a reason this is a classic ML demonstration dataset: The
+features can predict the target using a linear model with near perfect
+accuracy. When we do PCA and color the samples by diagnosis, we see an
+almost perfect seperation with just two principal components.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pca</span> <span class="o">=</span> <span class="n">PCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pca_data</span> <span class="o">=</span> <span class="n">pca</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">normalized_data</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">pca_data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">pca_data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">breast_cancer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;PC1&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;PC2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;PC2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/PCA_with_missing_data_3_1.png" src="../_images/PCA_with_missing_data_3_1.png" />
+<p>We were able to condense all 30 features into just two PCs, and the
+information we care about is still there. That’s less than 7% of the
+size of the original data, so it’s not too hard to believe we don’t need
+100% of the data to get a meaningful low-dimensional representation.
+Let’s simulate what would happen if 20% of the data was missing, and
+replaced with NaN.</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">missing_mask</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">normalized_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.2</span>
+<span class="n">missing_data</span><span class="o">=</span><span class="n">normalized_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">missing_data</span><span class="p">[</span><span class="n">missing_mask</span><span class="p">]</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">missing_data</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span>        <span class="n">nan</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.07333501</span><span class="p">,</span>  <span class="mf">1.26993369</span><span class="p">,</span>  <span class="mf">0.9843749</span> <span class="p">,</span>  <span class="mf">1.56846633</span><span class="p">],</span>
+       <span class="p">[</span>        <span class="n">nan</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.35363241</span><span class="p">,</span>         <span class="n">nan</span><span class="p">,</span>  <span class="mf">1.90870825</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.82696245</span><span class="p">],</span>
+       <span class="p">[</span>        <span class="n">nan</span><span class="p">,</span>         <span class="n">nan</span><span class="p">,</span>         <span class="n">nan</span><span class="p">,</span>  <span class="mf">1.55888363</span><span class="p">,</span>  <span class="mf">0.94221044</span><span class="p">],</span>
+       <span class="p">[</span><span class="o">-</span><span class="mf">0.76890929</span><span class="p">,</span>  <span class="mf">0.25373211</span><span class="p">,</span>         <span class="n">nan</span><span class="p">,</span>         <span class="n">nan</span><span class="p">,</span>  <span class="mf">3.28355348</span><span class="p">],</span>
+       <span class="p">[</span> <span class="mf">1.75029663</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.15181643</span><span class="p">,</span>  <span class="mf">1.77657315</span><span class="p">,</span>  <span class="mf">1.82622928</span><span class="p">,</span>  <span class="mf">0.28037183</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>If you tried giving sklearn’s PCA function this new matrix, you’d
+definitely get an error, so we’ll use the MC class in SpaLoR. We can use
+it the same way we used PCA:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spalor.models</span> <span class="kn">import</span> <span class="n">MC</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">MC</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pca_missing_data</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">missing_data</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">pca_missing_data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">pca_missing_data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">breast_cancer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;PC1&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;PC2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;PC2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/PCA_with_missing_data_8_1.png" src="../_images/PCA_with_missing_data_8_1.png" />
+<p>And voilà, we just did PCA with missing data and got almost the same
+thing! This dataset is so clean, we can actually do it with much less
+data too. Here’s the same thing with 80% of the data missing:</p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">missing_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">normalized_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">&lt;</span><span class="mf">0.8</span>
+<span class="n">missing_data</span> <span class="o">=</span> <span class="n">normalized_data</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">missing_data</span><span class="p">[</span><span class="n">missing_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">mc</span> <span class="o">=</span> <span class="n">MC</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">pca_missing_data</span><span class="o">=</span><span class="n">mc</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">missing_data</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">sns</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">pca_missing_data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">pca_missing_data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">hue</span><span class="o">=</span><span class="n">breast_cancer</span><span class="o">.</span><span class="n">target</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;PC1&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;PC2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Text</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;PC2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<img alt="../_images/PCA_with_missing_data_10_1.png" src="../_images/PCA_with_missing_data_10_1.png" />
+<p>At this point, the seperation gets a little messier, but for just 20% of
+the data it’s not bad at all!</p>
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api_doc/spalor.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../_sources/examples/PCA_with_missing_data.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2D2D2D" />
   
-  <title>SpaLoR :: RPCA for Background-Foreground Seperation</title>
+  <title>SpaLoR :: &lt;no title&gt;</title>
   
 
   <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
@@ -46,11 +46,8 @@
       <div id="main-content-container">
         <div id="main-content" role="main">
           
-  <section id="rpca-for-background-foreground-seperation">
-<h1>RPCA for Background-Foreground Seperation<a class="headerlink" href="#rpca-for-background-foreground-seperation" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+  <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">datasets.data_loader</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">RPCA.algorithms</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">matplotlib.animation</span> <span class="k">as</span> <span class="nn">animation</span>
@@ -58,6 +55,21 @@
 <span class="n">v</span><span class="o">=</span><span class="n">load_video</span><span class="p">(</span><span class="s2">&quot;../datasets/videos/escalator.avi&quot;</span><span class="p">)</span>
 <span class="p">(</span><span class="n">n_frames</span><span class="p">,</span><span class="n">d1</span><span class="p">,</span><span class="n">d2</span><span class="p">)</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">shape</span>
 <span class="n">v</span><span class="o">=</span><span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">n_frames</span><span class="p">,</span> <span class="n">d1</span><span class="o">*</span><span class="n">d2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">---------------------------------------------------------------------------</span>
+
+<span class="ne">ModuleNotFoundError</span>                       <span class="n">Traceback</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">last</span><span class="p">)</span>
+
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="n">c35086c4c12c</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+      <span class="mi">1</span> <span class="kn">import</span> <span class="nn">sys</span>
+      <span class="mi">2</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;../&#39;</span><span class="p">)</span>
+<span class="o">----&gt;</span> <span class="mi">3</span> <span class="kn">from</span> <span class="nn">spalor.datasets.data_loader</span> <span class="kn">import</span> <span class="o">*</span>
+      <span class="mi">4</span> <span class="kn">from</span> <span class="nn">RPCA.algorithms</span> <span class="kn">import</span> <span class="o">*</span>
+      <span class="mi">5</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+
+<span class="ne">ModuleNotFoundError</span><span class="p">:</span> <span class="n">No</span> <span class="n">module</span> <span class="n">named</span> <span class="s1">&#39;spalor.datasets.data_loader&#39;</span>
 </pre></div>
 </div>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">S</span><span class="p">)</span><span class="o">=</span><span class="n">altProjNiave</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">100</span><span class="o">*</span><span class="n">n_frames</span><span class="p">)</span>
@@ -83,7 +95,6 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-</section>
 
 
         </div>
@@ -106,30 +117,24 @@
     
   
   
-    <ul class="current">
+    <ul>
 <li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/datasets.html">SpaLoR Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Examples</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="PCA_with_missing_data.html">PCA with Missing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api_doc/spalor.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/models.html">spalor.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/algorithms.html">spalor.algorithms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/regularization.html">spalor.regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/datasets.html">spalor.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/util.html">spalor.util</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
 </ul>
 </li>
 </ul>

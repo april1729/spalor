@@ -1,8 +1,7 @@
 from scipy.sparse.linalg import svds
 from numpy.linalg import pinv
 import numpy as np
-
-from spalor.util.randomized_matrix_computations import *
+from spalor.matrix_tools import leverage_score
 
 
 class CX():
@@ -19,8 +18,11 @@ class CX():
     n_components : int, default=10
         Number of columns to sample.
 
-    solver : {'leverage_scores_QR', 'leverage_scores_approx', 'group_sparse_regression'}, default='leverage_scores_QR'
-        choice of three different solvers.  
+    method : {'exact', 'approximate', 'random'}, default='exact'
+        method to select rows.
+            - "exact": randomly select by leverage scores
+            - "approximate" : randomly select columns by approximated leverage scores
+            - "random" : randomly select columns
 
     Attributes:
     ------------
@@ -34,53 +36,114 @@ class CX():
         Columns sampled
     X : ndarray, shape = (n_components, d2)
         Score matrix, often used for classification. Coordinates in the lower dimensional column space
+
+    Example:
+    ---------
+    ```
+    A=np.array([[1, 1, 2, 2],
+        [2, 1, 3, 5],
+        [1, 2, 3, 1],
+        [3, 1, 4, 8]], dtype=float)
+    cx=CX(n_components=2)
+    X=cx.fit_transform(A)
+    print("C:\n", cx.C)
+    print("X:\n", cx.X)
+    print("columns used: \n", cx.cols)
+    ```
     '''
 
-    def __init__(self, n_components=10, solver='leverage_scores_QR'):
+    def __init__(self, n_components=10, method='approximate'):
         self.n_components = n_components
-        self.solver=solver
+        self.method=method
 
-    def fit(self, A):
-        self.A = A
-
-        ls = np.power(leverage_scores_QR(np.transpose(A), r=3), 2)
-        ls = ls / np.sum(ls)
-        np.transpose(A)
-
-        self.cols = np.random.choice(len(ls), self.n_components, p=ls)
-
-        self.C = np.squeeze(self.A[:, self.cols])
-        self.X = pinv(self.C).dot(self.A)
-
-    def fit_from_SVD(self, U, S, V):
+    def fit(self, A, cols=None, svdA=None):
         '''
-        Used to fit the model when the singular value decomposition is already known.  Knowing the SVD a priori greatly reduces the computional time of the method.
+        Fit CX model
 
         Parameters:
-        -------------
-        U : ndarray
-        S : ndarray
-        V : ndarray  
+        -----------
+        A: numpy array with shape (n,d)
+            Matrix to fit model to
+        cols : (optional) list or 1d numpy array
+            list of columns to use.  If specified, `method` and `n_components` are ignored
+        svdA : (optional) length 3 tuple 
+            the output of `np.linalg.svd` or `scipy.sparse.linalg.svds`.  If you already have the svd of A, specifying it saves on computation.
+
+        Returns:
+        ---------
+        updated model
         '''
-        ls = np.sum(np.square(self.Vt), 1)
-        self.cols = np.random.choice(len(ls), self.n_components, p=ls)
-        self.C = self.A[:, self.cols]
-        self.X = pinv(self.C).dot(self.A)
 
+        self.A = A
 
-    def transform(self, C):
-        return C.dot(self.X)
+        n=A.shape[1]
 
-    def fit_transform(self, A):
-        self.fit(A)
+        if cols is None:
+
+            if svdA is not None:
+                ls_input=svdA
+            else:
+                ls_input=A
+
+            ls=leverage_score(ls_input, k=self.n_components, axis=1, method=self.method) **2
+            ls=ls/ls.sum()
+            cols = np.random.choice(len(ls), self.n_components, p=ls)
+
+        self.cols=cols
+        self.C = np.squeeze(self.A[:, self.cols])
+        self.Cpinv=pinv(self.C)
+        self.X = self.Cpinv.dot(self.A)
+        return self
+
+    def transform(self, A):
+        """
+        Extract columns of A
+
+        Parameters:
+        -----------
+        A: numpy array with shape (n,d)
+
+        Returns:
+        ---------
+        Columns of A corresponding to the ones use in the CX model
+        """
+
+        return np.squeeze(A[:, self.cols])
+
+    def fit_transform(self, A, cols=None, svdA=None):
+        '''
+        Fit and return columns
+        '''
+        self.fit(A, cols=cols, svdA=svdA)
         return self.C
 
-    def inverse_transform(self, X):
-        return self.C.dot(X)
+    def inverse_transform(self, C):
+        """
+        Infer entire matrix from subset of columns
 
-    def get_params(self):
-        return (self.C, self.X, self.cols)
+        Params:
+        ------
+        C: numpy array with shape(n, n_components)
 
+        Returns:
+        -------
+        ndarray with shape (n,d)
+        """
+
+        return C.dot(self.X)
 
     def get_covariance(self):
-        return self.X.T.dot(self.X)/n_components
+        return self.X.T.dot(self.X)/self.n_components
+
+if __name__=="__main__":
+    A=np.array([[1, 1, 2, 2],
+            [2, 1, 3, 5],
+            [1, 2, 3, 1],
+            [3, 1, 4, 8]], dtype=float)
+    cx=CX(n_components=2)
+    X=cx.fit_transform(A)
+    print("C:\n", cx.C)
+    print("X:\n", cx.X)
+    print("columns used: \n", cx.cols)
+
+

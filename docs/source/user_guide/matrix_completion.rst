@@ -1,26 +1,5 @@
-
-.. code:: ipython3
-
-    from IPython.display import Image
-    from IPython.display import display_html
-    from IPython.display import display
-    from IPython.display import Math
-    from IPython.display import Latex
-    from IPython.display import HTML
-
-.. raw:: html
-
-   <h1>
-
-What is Matrix Completion?
-
-.. raw:: html
-
-   </h1>
-
-.. raw:: html
-
-   <p>
+Matrix Completion
+=================
 
 Simply put, the goal of matrix completion is fill in missing entries of
 a matrix (or dataset) given the fact that the matrix is low rank, or low
@@ -30,21 +9,13 @@ rank 2. That means that every column can be written as a linear
 combination (weighted sum) of two vectors. Lets look at an example of
 what this puzzle might look like.
 
-.. raw:: html
-
-   </p>
-
 .. math::
 
-    \begin{bmatrix}   
-   1 & 1 &2 & 2\\
+    \begin{bmatrix}
+   1 & 1 &2 & 0\\
    2&1&3&\\
-   1&2&&1
+   1&2&&-1
    \end{bmatrix}
-
-.. raw:: html
-
-   <p>
 
 The first two columns are completly filled in, so we can use those to
 figure out the rest of the columns. Based on the few entries in the
@@ -52,32 +23,13 @@ third column that are given, we can see that the third column should
 probably be the first column plus the second column. Likewise, the
 fourth column is two times the first column minus the second column.
 
-.. raw:: html
-
-   </p>
-
 .. math::
 
-    \begin{bmatrix}   
-   1 & 1 &2 & 2\\
-   2&1&3&5\\
-   1&2&3&1\\
+    \begin{bmatrix}
+   1 & 1 &2 & 0\\
+   2&1&3&1\\
+   1&2&3&-1\\
    \end{bmatrix}
-
-.. raw:: html
-
-   <p>
-
-That was a particularly easy example since we knew the first two columns
-completely.
-
-.. raw:: html
-
-   </p>
-
-.. raw:: html
-
-   <p>
 
 To see why we should care about this, here’s a claim that shouldn’t be
 too hard to believe: Datasets are inherently low rank . In the example
@@ -90,19 +42,69 @@ After explaining an algorithm to do matrix completion, we’re going to
 try this for a data set with a million ratings people gave movies and
 see how well we recommend movies to people.
 
-.. raw:: html
+The ``MC`` class
+================
 
-   </p>
+The ``MC`` class is designed to be similair to the ``PCA`` class in
+scikit-learn. The ``.fit()``, ``.fit_transform()``, and ``.transform()``
+methods all work the same as in ``PCA``.
 
-.. raw:: html
+The full matrix with imputed values can be obtained with the
+``.to_matrix()`` method.
 
-   <h1>
+.. code:: ipython3
 
-How do we do it?
+    import numpy as np
+    from spalor.models import MC
+    A = np.array([[1, 1, 2, 0],
+                  [2, 1, 3, np.nan],
+                  [1, 2, np.nan, -1]])
+    mc = MC(n_components=2)
+    mc.fit(A)
+    
+    print("Full matrix: \n", mc.to_matrix())
+    
 
-.. raw:: html
 
-   </h1>
+
+.. parsed-literal::
+
+    Full matrix: 
+     [[ 1.00000000e+00  1.00000000e+00  2.00000000e+00 -2.75679489e-14]
+     [ 2.00000000e+00  1.00000000e+00  3.00000000e+00  1.00000000e+00]
+     [ 1.00000000e+00  2.00000000e+00  3.00000000e+00 -1.00000000e+00]]
+
+
+The MC class can also be used like a supervised learning algorithm,
+where the features are pairs of indices, and the target variable is the
+corresponding value in the matrix. This is ideal for very large sparse
+matrices where the entire matrix is not needed (like for recommendation
+systems).
+
+.. code:: ipython3
+
+    X = np.array([[0, 0, 0, 0, 1, 1, 1, 2, 2, 2], [0, 1, 2, 3, 0, 1, 2, 0, 1, 3]])
+    y = np.array([1, 1, 2, 0, 2, 1, 3, 1, 2, -1])
+    
+    mc = MC(n_components=2)
+    mc.fit(X, y)
+    print("Entry (1,3): ", mc.predict(np.array([[1, 3]]).T))
+    print("Entry (2,2): ", mc.predict(np.array([[2, 2]]).T))
+
+
+.. parsed-literal::
+
+    Entry (1,3):  [1.]
+    Entry (2,2):  [3.]
+
+
+See `PCA with missing entries <>`__ and `Movie recomendations with
+matrix completion <>`__ for practical examples of using the ``MC``
+function as dimensionality reduction and as supervised learning,
+respectively
+
+Mathematical details
+--------------------
 
 There’s two paradigms for matrix completion. One is to minimize the rank
 of a matrix that fits our measurements, and the other is to find a
@@ -116,41 +118,35 @@ we know the entry. For example, if we have the partially observed matrix
 .. math::
 
     \begin{matrix}
-   \color{blue}1\\\color{blue}2\\\color{blue}3
+   \color{blue}1\\ \color{blue}2\\ \color{blue}3
    \end{matrix}
-   \begin{bmatrix}   
-     & 1 &  \\
-     &   & 1\\
-   1 &   &  
-     \end{bmatrix}
+   \begin{bmatrix}
+   & 1 &  \\
+       &   & 1\\
+       1 &   &
+   \end{bmatrix}
 
-| 
+.. math::  \begin{matrix}&\color{red}1 & \color{red}2 & \color{red}3  \end{matrix}
 
-  .. math::
+then, :math:`\Omega` would be
+:math:`\{ (\color{blue} 1, \color{red}2), (\color{blue}2 , \color{red}3),(\color{blue} 3, \color{red}1)\}`
 
-      
-     \begin{matrix}   
-      &\color{red}1 & \color{red}2 & \color{red}3  \end{matrix}
+We can now pose the problem of finding a matrix with rank :math:`r` that
+best fits the entries we’ve observe as an optimization problem.
 
-   then, :math:`\Omega` would be
-  :math:`\{ (\color{blue} 1, \color{red}2), (\color{blue}2 , \color{red}3),(\color{blue} 3, \color{red}1)\}`
-  We can now pose the problem of finding a matrix with rank :math:`r`
-  that best fits the entries we’ve observe as an optimization problem.
-| 
-
-  .. math::
+.. math::
 
 
-     \begin{align}
-     &\underset{X}{\text{minimize}}& \sum_{(i,j)\text{ in }\Omega} (X_{ij}-M_{ij})^2 \\
-     & \text{such that} & \text{rank}(X)=r
-     \end{align}
+   \begin{array}{ll}
+   \underset{X}{\text{minimize}}& \sum_{(i,j)\text{ in }\Omega} (X_{ij}-M_{ij})^2 \\
+   \text{such that} & \text{rank}(X)=r \\
+   \end{array}
 
-   The first line specifies objective function (the function we want to
-  minimize), which is the sum of the square of the difference between
-  :math:`X_{ij}` and :math:`M_{ij}` for every :math:`(i,j)` that we have
-  a measurement for. The second line is our constraint, which says that
-  the matrix has to be rank :math:`r`.
+The first line specifies objective function (the function we want to
+minimize), which is the sum of the square of the difference between
+:math:`X_{ij}` and :math:`M_{ij}` for every :math:`(i,j)` that we have a
+measurement for. The second line is our constraint, which says that the
+matrix has to be rank :math:`r`.
 
 While minimizing a function like that isn’t too hard, forcing the matrix
 to be rank :math:`r` can be tricky. One property of a low rank matrix
@@ -159,7 +155,7 @@ into two smaller matrices like such:
 
 .. math:: X=UV
 
- where :math:`U` is :math:`n` by :math:`r` and :math:`V` is :math:`r` by
+where :math:`U` is :math:`n` by :math:`r` and :math:`V` is :math:`r` by
 :math:`m`. So now, if we can find matrices :math:`U` and :math:`V` such
 that the matrix :math:`UV` fits our data, we know its going to be rank
 :math:`r` and that will be the solution to our problem.
@@ -173,11 +169,11 @@ optimization problem we want to solve as
 .. math::
 
 
-   \begin{align}
-   &\underset{U, V}{\text{minimize}}& \sum_{(i,j)\in \Omega} (\langle u_i, v_i \rangle-M_{ij})^2 
-   \end{align}
+   \begin{array}
+   &\underset{U, V}{\text{minimize}}& \sum_{(i,j)\in \Omega} (\langle u_i, v_i \rangle-M_{ij})^2
+   \end{array}
 
- In order to solve this, we can alternate between optimizing for
+In order to solve this, we can alternate between optimizing for
 :math:`U` while letting :math:`V` be a constant, and optimizing over
 :math:`V` while letting :math:`U` be a constant. If :math:`t` is the
 iteration number, then the algorithm is simply
@@ -185,60 +181,11 @@ iteration number, then the algorithm is simply
 .. math::
 
 
-   \begin{align}
+   \begin{array}
    \text{for } t=1,2,\ldots:& \\
-   U^{t}=&\underset{U}{\text{minimize}}& \sum_{(i,j)\in \Omega} (\langle u_i, v^{t-1}_i \rangle-M_{ij})^2 \\
-   V^{t}=&\underset{ V}{\text{minimize}}& \sum_{(i,j)\in \Omega} (\langle u^t_i, v_i \rangle-M_{ij})^2 \\
-   \end{align}
+       U^{t}=&\underset{U}{\text{minimize}}& \sum_{(i,j)\in \Omega} (\langle u_i, v^{t-1}_i \rangle-M_{ij})^2 \\
+       V^{t}=&\underset{ V}{\text{minimize}}& \sum_{(i,j)\in \Omega} (\langle u^t_i, v_i \rangle-M_{ij})^2 \\
+       \end{array}
 
- At each iteration, we just need to solve a least squares problem which
+At each iteration, we just need to solve a least squares problem which
 is easy enough.
-
-.. code:: ipython3
-
-    import numpy as np
-    from scipy.optimize import minimize
-    
-    def alt_min(m,n,r, Omega, known):
-        U=np.random.rand(m,r)
-        V=np.random.rand(r,n)
-    
-        for i in range(0,100):   
-            
-            objU=lambda x: np.linalg.norm(np.reshape(x, [m,r]).dot(V)[Omega]-known)**2
-            U = np.reshape(minimize(objU, U).x, [m,r])
-            
-            objV=lambda x: np.linalg.norm(U.dot(np.reshape(x, [r,n]))[Omega]-known)**2
-            V = np.reshape(minimize(objV, V).x, [r,n])
-    
-            res=np.linalg.norm(U.dot(V)[Omega]-known)
-            if res < 0.0001:
-                break
-        return (U,V)
-
-Lets test our algorithm with the simple example given earlier.
-
-.. code:: ipython3
-
-    X=([0,0,0,0,1,1,1,2,2,2], [0,1,2,3,0,1,2,0,1,3])
-    y=[1,1,2,2,2,1,3,1,2,1]
-    (U,V)=alt_min(3,4,2,X, y)
-    print(U.dot(V))
-
-
-.. parsed-literal::
-
-    [[1.00008887 0.9999849  1.99999906 1.99999915]
-     [1.99997047 1.00000478 2.99999981 4.9989627 ]
-     [0.99997001 2.0000056  2.99972689 1.00000089]]
-
-
-Thats the same matrix we came up with!
-
-The MC class in SpaLoR
-----------------------
-
-While this function would work just fine for smaller problems, the MC
-class in SpaLoR is much more efficient and can handle very large
-matrices. 
-

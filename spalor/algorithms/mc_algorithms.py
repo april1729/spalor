@@ -3,7 +3,7 @@ from math import *
 from scipy.sparse import coo_matrix
 
 from spalor.regularization.thresholding import *
-from spalor.util.factorization_util import *
+from spalor.matrix_tools.factorization_util import *
 import numpy as np
 from scipy.optimize import minimize
 
@@ -37,7 +37,7 @@ def lmafit(d1, d2, r, known, data):
     # set parameters
     # TODO: parameter selection
     tol = 1e-5;
-    maxit = 150;
+    maxit = 1000;
     iprint = 2;
     est_rank = 1;
     rank_max = max(floor(0.1 * min(d1,d2)), 2 * r);
@@ -48,8 +48,8 @@ def lmafit(d1, d2, r, known, data):
 
     # Initialize Variables
 
-    X = np.random.rand(d1, r)
-    Y = np.random.rand(d2, r)
+    X = np.random.randn(d1, r)
+    Y = np.random.randn(d2, r)
     Res = data - partXY(X, Y, known)
     S = coo_matrix((Res, known), shape=(d1,d2))
     alf = 0
@@ -66,8 +66,7 @@ def lmafit(d1, d2, r, known, data):
         Y0 = Y
         Res0 = Res
         res0 = res
-        print(res)
-        
+
         X = X + S.dot(Y).dot(np.linalg.pinv(Y.transpose().dot(Y)))
         XXInv = np.linalg.pinv(X.transpose().dot(X));
         Y = Y.dot(X0.transpose().dot(X)).dot(XXInv) + S.transpose().dot(X).dot(XXInv)
@@ -124,7 +123,7 @@ def alt_proj(m,n,r,X,y):
     for iter in range(0,2000):
         L[X[0,:],X[1,:]]=y;
         L=lowRankProj(L,r+max(0,round(10-iter/100)));
-        print(np.linalg.norm(L[X[0,:],X[1,:]]-y))
+        # print(np.linalg.norm(L[X[0,:],X[1,:]]-y))
     u,s,vt=svds(L,r)
     U=u.dot(np.sqrt(s));
     V=np.sqrt(s).dot(vt);

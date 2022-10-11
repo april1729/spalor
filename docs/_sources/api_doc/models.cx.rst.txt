@@ -1,4 +1,4 @@
-spalor.models.CX
+CX
 =====================
 
 .. autoclass:: spalor.models.CX

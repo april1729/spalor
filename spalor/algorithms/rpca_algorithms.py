@@ -10,7 +10,7 @@ def altProjNiave(M, r, s, fTol=1e-10, maxIter=100):
 
         res0 = res
         res = np.linalg.norm(M - (L + S), ord='fro')
-        if (res0 - res) / res < fTol:
+        if (res0 - res)/res  < fTol:
             break
     return (L, S)
 

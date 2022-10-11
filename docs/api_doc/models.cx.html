@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2D2D2D" />
   
-  <title>SpaLoR :: spalor.models.CX</title>
+  <title>SpaLoR :: CX</title>
   
 
   <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
@@ -46,12 +46,13 @@
       <div id="main-content-container">
         <div id="main-content" role="main">
           
-  <section id="spalor-models-cx">
-<h1>spalor.models.CX<a class="headerlink" href="#spalor-models-cx" title="Permalink to this headline">¶</a></h1>
+  <section id="cx">
+<h1>CX<a class="headerlink" href="#cx" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="spalor.models.CX">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">CX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solver</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'leverage_scores_QR'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">CX</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'approximate'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><dl class="simple">
 <dt>Dimensionality reduction based on a low-rank matrix faactorization:</dt><dd><p>A=C*X</p>
 </dd>
 </dl>
@@ -60,7 +61,14 @@
 <dl class="simple">
 <dt>n_components<span class="classifier">int, default=10</span></dt><dd><p>Number of columns to sample.</p>
 </dd>
-<dt>solver<span class="classifier">{‘leverage_scores_QR’, ‘leverage_scores_approx’, ‘group_sparse_regression’}, default=’leverage_scores_QR’</span></dt><dd><p>choice of three different solvers.</p>
+<dt>method<span class="classifier">{‘exact’, ‘approximate’, ‘random’}, default=’exact’</span></dt><dd><dl class="simple">
+<dt>method to select rows.</dt><dd><ul class="simple">
+<li><p>“exact”: randomly select by leverage scores</p></li>
+<li><p>“approximate” : randomly select columns by approximated leverage scores</p></li>
+<li><p>“random” : randomly select columns</p></li>
+</ul>
+</dd>
+</dl>
 </dd>
 </dl>
 <dl class="simple">
@@ -75,13 +83,60 @@
 <dt>X<span class="classifier">ndarray, shape = (n_components, d2)</span></dt><dd><p>Score matrix, often used for classification. Coordinates in the lower dimensional column space</p>
 </dd>
 </dl>
+<p><a href="#id7"><span class="problematic" id="id8">``</span></a>`
+A=np.array([[1, 1, 2, 2],</p>
+<blockquote>
+<div><p>[2, 1, 3, 5],
+[1, 2, 3, 1],
+[3, 1, 4, 8]], dtype=float)</p>
+</div></blockquote>
+<p>cx=CX(n_components=2)
+X=cx.fit_transform(A)
+print(“C:</p>
+</div></blockquote>
+<dl class="simple">
+<dt>“, cx.C)</dt><dd><p>print(“X:</p>
+</dd>
+<dt>“, cx.X)</dt><dd><p>print(“columns used:</p>
+</dd>
+<dt>“, cx.cols)</dt><dd><p><a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
+</dd>
+</dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="spalor.models.CX.fit_from_SVD">
-<span class="sig-name descname"><span class="pre">fit_from_SVD</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">U</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">S</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">V</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX.fit_from_SVD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX.fit_from_SVD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Used to fit the model when the singular value decomposition is already known.  Knowing the SVD a priori greatly reduces the computional time of the method.</p>
-<p>U : ndarray
-S : ndarray
-V : ndarray</p>
+<dt class="sig sig-object py" id="spalor.models.CX.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svdA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit CX model</p>
+<dl class="simple">
+<dt>A: numpy array with shape (n,d)</dt><dd><p>Matrix to fit model to</p>
+</dd>
+<dt>cols<span class="classifier">(optional) list or 1d numpy array</span></dt><dd><p>list of columns to use.  If specified, <cite>method</cite> and <cite>n_components</cite> are ignored</p>
+</dd>
+<dt>svdA<span class="classifier">(optional) length 3 tuple</span></dt><dd><p>the output of <cite>np.linalg.svd</cite> or <cite>scipy.sparse.linalg.svds</cite>.  If you already have the svd of A, specifying it saves on computation.</p>
+</dd>
+</dl>
+<p>updated model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spalor.models.CX.fit_transform">
+<span class="sig-name descname"><span class="pre">fit_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">svdA</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX.fit_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX.fit_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit and return columns</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spalor.models.CX.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">C</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX.inverse_transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Infer entire matrix from subset of columns</p>
+<p>C: numpy array with shape(n, n_components)</p>
+<p>ndarray with shape (n,d)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="spalor.models.CX.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cx.html#CX.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CX.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract columns of A</p>
+<p>A: numpy array with shape (n,d)</p>
+<p>Columns of A corresponding to the ones use in the CX model</p>
 </dd></dl>
 
 </dd></dl>
@@ -111,28 +166,22 @@ V : ndarray</p>
   
     <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/datasets.html">SpaLoR Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="spalor.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="models.html">spalor.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="algorithms.html">spalor.algorithms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularization.html">spalor.regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datasets.html">spalor.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="util.html">spalor.util</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
 </ul>
 </li>
 </ul>

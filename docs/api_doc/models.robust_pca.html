@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2D2D2D" />
   
-  <title>SpaLoR :: spalor.models.RPCA</title>
+  <title>SpaLoR :: RPCA</title>
   
 
   <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
@@ -46,39 +46,57 @@
       <div id="main-content-container">
         <div id="main-content" role="main">
           
-  <section id="spalor-models-rpca">
-<h1>spalor.models.RPCA<a class="headerlink" href="#spalor-models-rpca" title="Permalink to this headline">¶</a></h1>
+  <section id="rpca">
+<h1>RPCA<a class="headerlink" href="#rpca" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="spalor.models.RPCA">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">RPCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/robust_pca.html#RPCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.RPCA" title="Permalink to this definition">¶</a></dt>
-<dd><p>Robust Principal Component Analysis.</p>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">RPCA</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_components</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sparsity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/robust_pca.html#RPCA"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.RPCA" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Robust Principal Component Analysis.</p>
 <p>Simultaniously performs PCA while identifying and correcting outliers.</p>
 <p>See the <cite>user guide &lt;http://www.spalor.org/user_guide/rpca&gt;</cite> for a detailed description</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>n_components</strong> (<em>int</em>) – Number of principle components to solve for, that is, the rank of the matrix to be completed. If set to a number between 0 ad 1, the parameter will be taken to be the ratio of the smallest singular value to the largest.</p></li>
-<li><p><strong>solver</strong> (<em>{'lmafit'</em><em>, </em><em>'svt'</em><em>, </em><em>'alt_min'</em><em>, </em><em>'alt_proj'}</em><em>, </em><em>default='lmafit'</em>) – solver to use  see ../algorithms/mc_algorithms</p></li>
-<li><p><strong>lambda</strong> (<em>float</em><em>, </em><em>must be larger than 0</em><em>, </em><em>default 0.5</em>) – <p>Regularization parameter.  Only used if solver=’svt’ or ‘apgd’.</p>
-<p>Increasing the parameter reduces overfiting, but may lead to estimaiton bias towards zero, particularly with solver=’svt’</p>
-</p></li>
-<li><p><strong>tol</strong> (<em>float</em><em>, </em><em>default=1e-6</em>) – Stopping  criteria for matrix completion solver.</p></li>
-</ul>
+<dl>
+<dt>n_components<span class="classifier">int</span></dt><dd><p>Number of principle components to solve for, that is, the rank of the matrix to be completed. If set to a number between 0 ad 1, the parameter will be taken to be the ratio of the smallest singular value to the largest.</p>
 </dd>
-<dt class="field-even">Variables</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>d1</strong> (<em>int</em>) – Number of rows in matrix (typically, the number of samples in the dataset)</p></li>
-<li><p><strong>d2</strong> (<em>int</em>) – Number of columns in the matrix (typically, the number of features in the dataset)</p></li>
-<li><p><strong>U</strong> (<em>ndarray of size</em><em> (</em><em>d1</em><em>, </em><em>n_components</em><em>)</em>) – left singular vectors</p></li>
-<li><p><strong>S</strong> (<em>ndarray of size</em><em> (</em><em>n_components</em><em>,</em><em>)</em>) – singular values</p></li>
-<li><p><strong>V</strong> (<em>ndarray of size</em><em> (</em><em>d2</em><em>, </em><em>n_components</em><em>)</em>) – right singular vectors. Often, these are the prinicipal component axes, or the basis</p></li>
-<li><p><strong>T</strong> (<em>ndarray of size</em><em> (</em><em>d1</em><em>, </em><em>n_components</em><em>)</em>) – Score matrix, U*S.  Often used for classification from PCA.</p></li>
-<li><p><strong>outliers</strong> (<em>ndarray of size</em><em> (</em><em>d1</em><em>,</em><em>d2</em><em>)</em>) – </p></li>
-</ul>
+<dt>solver<span class="classifier">{‘lmafit’, ‘svt’, ‘alt_min’, ‘alt_proj’}, default=’lmafit’</span></dt><dd><p>solver to use  see ../algorithms/mc_algorithms</p>
+</dd>
+<dt>lambda<span class="classifier">float, must be larger than 0, default 0.5</span></dt><dd><p>Regularization parameter.  Only used if solver=’svt’ or ‘apgd’.</p>
+<p>Increasing the parameter reduces overfiting, but may lead to estimaiton bias towards zero, particularly with solver=’svt’</p>
+</dd>
+<dt>tol<span class="classifier">float, default=1e-6</span></dt><dd><p>Stopping  criteria for matrix completion solver.</p>
 </dd>
 </dl>
 <dl class="simple">
+<dt>d1<span class="classifier">int</span></dt><dd><p>Number of rows in matrix (typically, the number of samples in the dataset)</p>
+</dd>
+<dt>d2<span class="classifier">int</span></dt><dd><p>Number of columns in the matrix (typically, the number of features in the dataset)</p>
+</dd>
+<dt>U<span class="classifier">ndarray of size (d1, n_components)</span></dt><dd><p>left singular vectors</p>
+</dd>
+<dt>S<span class="classifier">ndarray of size (n_components,)</span></dt><dd><p>singular values</p>
+</dd>
+<dt>V<span class="classifier">ndarray of size (d2, n_components)</span></dt><dd><p>right singular vectors. Often, these are the prinicipal component axes, or the basis</p>
+</dd>
+<dt>T<span class="classifier">ndarray of size (d1, n_components)</span></dt><dd><p>Score matrix, U*S.  Often used for classification from PCA.</p>
+</dd>
+</dl>
+<p>outliers : ndarray of size (d1,d2)</p>
+<dl class="simple">
 <dt>components<span class="classifier">ndarray of size (d2, n_components)</span></dt><dd><p>Principal axes in feature space, representing the directions of maximum variance in the data.</p>
+</dd>
+</dl>
+<p>Example:
+<a href="#id1"><span class="problematic" id="id2">``</span></a>`
+A = np.random.randn(50, 2).dot(np.random.randn(2,30))
+S = np.random.rand(<a href="#id3"><span class="problematic" id="id4">*</span></a>A.shape)&lt;0.1</p>
+<p>rpca=RPCA(n_components=2, sparsity=0.1)
+rpca.fit(A+S)</p>
+<p>print(“Denoised matrix error:</p>
+</div></blockquote>
+<dl class="simple">
+<dt>“, np.linalg.norm(rpca.to_matrix()-A)/np.linalg.norm(A))</dt><dd><p>print(“Outliersm error:</p>
+</dd>
+<dt>“, np.linalg.norm(<a href="#id9"><span class="problematic" id="id10">rpca.outliers_</span></a>-S)/np.linalg.norm(S))</dt><dd><p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
 </dd>
 </dl>
 <dl class="py method">
@@ -171,28 +189,22 @@
   
     <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/datasets.html">SpaLoR Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="spalor.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="models.html">spalor.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="algorithms.html">spalor.algorithms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularization.html">spalor.regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datasets.html">spalor.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="util.html">spalor.util</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
 </ul>
 </li>
 </ul>

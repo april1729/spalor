@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: spalor.models.robust_pca</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1><a href="../../../index.html"> SpaLoR </a> </h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <h1>Source code for spalor.models.robust_pca</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">spalor.algorithms.rpca_algorithms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">scipy.sparse.linalg</span> <span class="kn">import</span> <span class="n">svds</span>
+<div class="viewcode-block" id="RPCA"><a class="viewcode-back" href="../../../api_doc/models.robust_pca.html#spalor.models.RPCA">[docs]</a><span class="k">class</span> <span class="nc">RPCA</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Robust Principal Component Analysis.  </span>
+
+<span class="sd">    Simultaniously performs PCA while identifying and correcting outliers.</span>
+
+<span class="sd">    See the `user guide &lt;http://www.spalor.org/user_guide/rpca&gt;` for a detailed description</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_components : int</span>
+<span class="sd">        Number of principle components to solve for, that is, the rank of the matrix to be completed. If set to a number between 0 ad 1, the parameter will be taken to be the ratio of the smallest singular value to the largest.</span>
+<span class="sd">    </span>
+<span class="sd">    solver : {&#39;lmafit&#39;, &#39;svt&#39;, &#39;alt_min&#39;, &#39;alt_proj&#39;}, default=&#39;lmafit&#39;</span>
+<span class="sd">        solver to use  see ../algorithms/mc_algorithms            </span>
+
+<span class="sd">    lambda : float, must be larger than 0, default 0.5</span>
+<span class="sd">        Regularization parameter.  Only used if solver=&#39;svt&#39; or &#39;apgd&#39;.</span>
+
+<span class="sd">        Increasing the parameter reduces overfiting, but may lead to estimaiton bias towards zero, particularly with solver=&#39;svt&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    tol : float, default=1e-6</span>
+<span class="sd">        Stopping  criteria for matrix completion solver.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    d1 : int</span>
+<span class="sd">        Number of rows in matrix (typically, the number of samples in the dataset)</span>
+
+<span class="sd">    d2 : int</span>
+<span class="sd">        Number of columns in the matrix (typically, the number of features in the dataset)</span>
+
+<span class="sd">    U : ndarray of size (d1, n_components)</span>
+<span class="sd">        left singular vectors</span>
+
+<span class="sd">    S : ndarray of size (n_components,)</span>
+<span class="sd">        singular values</span>
+
+<span class="sd">    V : ndarray of size (d2, n_components)</span>
+<span class="sd">        right singular vectors. Often, these are the prinicipal component axes, or the basis</span>
+
+<span class="sd">    T : ndarray of size (d1, n_components)</span>
+<span class="sd">        Score matrix, U*S.  Often used for classification from PCA.</span>
+
+<span class="sd">    outliers : ndarray of size (d1,d2)</span>
+
+
+<span class="sd">    components : ndarray of size (d2, n_components)</span>
+<span class="sd">        Principal axes in feature space, representing the directions of maximum variance in the data.</span>
+
+
+<span class="sd">    Example:</span>
+<span class="sd">    ```</span>
+<span class="sd">    A = np.random.randn(50, 2).dot(np.random.randn(2,30))</span>
+<span class="sd">    S = np.random.rand(*A.shape)&lt;0.1</span>
+
+<span class="sd">    rpca=RPCA(n_components=2, sparsity=0.1)</span>
+<span class="sd">    rpca.fit(A+S)</span>
+
+<span class="sd">    print(&quot;Denoised matrix error: \n&quot;, np.linalg.norm(rpca.to_matrix()-A)/np.linalg.norm(A))</span>
+<span class="sd">    print(&quot;Outliersm error: \n&quot;, np.linalg.norm(rpca.outliers_-S)/np.linalg.norm(S))</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span> <span class="o">=</span> <span class="n">n_components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span> <span class="o">=</span> <span class="n">sparsity</span>
+
+<div class="viewcode-block" id="RPCA.fit"><a class="viewcode-back" href="../../../api_doc/models.robust_pca.html#spalor.models.RPCA.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">M</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        M : ndarray </span>
+<span class="sd">            observed data matrix with an unknown but sparse set of outliers</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="o">=</span><span class="n">M</span><span class="p">;</span>
+        <span class="n">d1</span><span class="p">,</span><span class="n">d2</span><span class="o">=</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d1</span><span class="o">=</span><span class="n">d1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d2</span><span class="o">=</span><span class="n">d2</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">d1</span><span class="o">*</span><span class="n">d2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">)</span>
+        <span class="p">(</span><span class="n">L</span><span class="p">,</span><span class="n">outliers</span><span class="p">)</span> <span class="o">=</span> <span class="n">altProjNiave</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">M</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sparsity</span><span class="p">,</span> <span class="n">fTol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+        <span class="c1">#(L,S) = altProj(self.M,r=self.r)</span>
+        <span class="n">u</span><span class="p">,</span><span class="n">s</span><span class="p">,</span><span class="n">v</span><span class="o">=</span><span class="n">svds</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="o">=</span><span class="n">L</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">=</span><span class="n">u</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_components</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">=</span><span class="n">v</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">=</span><span class="n">s</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">outliers_</span><span class="o">=</span><span class="n">outliers</span></div>
+
+<div class="viewcode-block" id="RPCA.fit_transform"><a class="viewcode-back" href="../../../api_doc/models.robust_pca.html#spalor.models.RPCA.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">M</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        M : ndarray of size (d1,d2)</span>
+<span class="sd">            observed data matrix with an unknown but sparse set of outliers</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ---------</span>
+<span class="sd">        T : ndarray of size (d1, r)</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="RPCA.transform"><a class="viewcode-back" href="../../../api_doc/models.robust_pca.html#spalor.models.RPCA.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">X</span><span class="p">):</span>
+        
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        V is already solved for, so we just need to solve:</span>
+
+<span class="sd">        min U, outliers   ||U*V+outliers -X ||_F^2  s.t. outliers is spart</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+
+        <span class="k">pass</span></div>
+
+
+    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
+
+
+
+<div class="viewcode-block" id="RPCA.get_covariance"><a class="viewcode-back" href="../../../api_doc/models.robust_pca.html#spalor.models.RPCA.get_covariance">[docs]</a>    <span class="k">def</span> <span class="nf">get_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates an estimate of covariance matrix.  </span>
+
+<span class="sd">        Entry (i,j) will be a the correlation between feature i and feature j.  A value close to 1 is a strong postive correlatio, a value close to -1 is a strong negative correlation, and a value close to 0 is no correlation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        cov : array, shape=(d2, d2)</span>
+<span class="sd">            Estimated covariance of data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">transpose</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d1</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="RPCA.to_matrix"><a class="viewcode-back" href="../../../api_doc/models.robust_pca.html#spalor.models.RPCA.to_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculates the completed matrix.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -----------</span>
+<span class="sd">        L : ndarray of size (d1,d2)</span>
+<span class="sd">            Low rank matrix, denoised</span>
+
+<span class="sd">        S : sparse matrix of size (d1,d2)</span>
+<span class="sd">            Sparse outliers</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">L</span></div></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span><span class="o">==</span><span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">30</span><span class="p">))</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="o">*</span><span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">&lt;</span><span class="mf">0.1</span>
+
+    <span class="n">rpca</span><span class="o">=</span><span class="n">RPCA</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sparsity</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">rpca</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">A</span><span class="o">+</span><span class="n">S</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Denoised matrix error: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rpca</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">()</span><span class="o">-</span><span class="n">A</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Outliersm error: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rpca</span><span class="o">.</span><span class="n">outliers_</span><span class="o">-</span><span class="n">S</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">S</span><span class="p">))</span>
+
+
+    <span class="c1"># #%%</span>
+    <span class="c1"># rpca=RPCA(n_components=3, sparsity=0.1)</span>
+    <span class="c1"># U=rpca.fit_transform(A+S)</span>
+    <span class="c1"># print(&quot;Denoised matrix: \n&quot;, rpca.inverse_transform(U))</span>
+    <span class="c1"># #%%</span>
+    <span class="c1"># B=np.array([[-1, -2, -3, 3],</span>
+    <span class="c1">#             [0.5, 1, 1.5, 0]])</span>
+    <span class="c1">#</span>
+    <span class="c1"># outliers=rpca.predict_outliers(B)</span>
+    <span class="c1"># print(&quot;Outliers: \n&quot;, outliers)</span>
+
+
+
+</pre></div>
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/matrix_completion.html#mathematical-details">Mathematical details</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/robust_PCA.html">Robust Principle Component Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/robust_PCA.html#the-rpca-class">The <code class="docutils literal notranslate"><span class="pre">RPCA</span></code> class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cx-class">The <code class="docutils literal notranslate"><span class="pre">CX</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cur-class">The <code class="docutils literal notranslate"><span class="pre">CUR</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#computing-leverage-sores">Computing leverage sores</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/spalor.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-models">spalor.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.mc.html">MC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.robust_pca.html">RPCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cx.html">CX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cur.html">CUR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.mc.html">mc_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.robust_pca.html">rpca_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.cx.html">cx_algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.factorization_util.html">Factorization tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.leverage_score.html">leverage_score</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: leverage_score</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../genindex.html"/>
+
+  <link rel="stylesheet" href="../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1><a href="../index.html"> SpaLoR </a> </h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <section id="module-spalor.matrix_tools.leverage_score">
+<span id="leverage-score"></span><h1>leverage_score<a class="headerlink" href="#module-spalor.matrix_tools.leverage_score" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.matrix_tools.leverage_score.leverage_score">
+<span class="sig-prename descclassname"><span class="pre">spalor.matrix_tools.leverage_score.</span></span><span class="sig-name descname"><span class="pre">leverage_score</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'exact'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">axis</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/matrix_tools/leverage_score.html#leverage_score"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.matrix_tools.leverage_score.leverage_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calcluates the leverage statistic for each row (or column) of X when calculating the rank k approximation of A.</p>
+<p>A: either a n by d np-array or a tuple containing the SVD of A (the output of np.linalg.svd or the output of scipy.sparse.linalg.svds)
+k: rank for which the leverage statitics of the low rank approximation are calculated for
+method: If exact, calculate leverage scores using the rank-k svd [1].  if approximate, use the Fast Johnson-Lindenstrauss Transform to approximate leverage scores[2].
+axis: dimension of the matrix to calclute leverage scores for (0: calculate score for columns, 1: calculate for rows)</p>
+<p>l: vector of leverage scores with length A.shape[axis]</p>
+<p>[1] Randomized algorithms for matrices and data, Michael W. Mahoney (page 7), <a class="reference external" href="https://arxiv.org/pdf/1104.5557.pdf">https://arxiv.org/pdf/1104.5557.pdf</a></p>
+<p>[2] Fast Approximation of Matrix Coherence and Statistical Leverage, Petros Drineas and Malik Magdon-Ismail and Michael W. Mahoney and David P. Woodruff, JMLR, <a class="reference external" href="https://www.stat.berkeley.edu/~mmahoney/pubs/coherence-jmlr12.pdf">https://www.stat.berkeley.edu/~mmahoney/pubs/coherence-jmlr12.pdf</a></p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.matrix_tools.leverage_score.leverage_score_aprx">
+<span class="sig-prename descclassname"><span class="pre">spalor.matrix_tools.leverage_score.</span></span><span class="sig-name descname"><span class="pre">leverage_score_aprx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/matrix_tools/leverage_score.html#leverage_score_aprx"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.matrix_tools.leverage_score.leverage_score_aprx" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="spalor.matrix_tools.leverage_score.leverage_score_exact">
+<span class="sig-prename descclassname"><span class="pre">spalor.matrix_tools.leverage_score.</span></span><span class="sig-name descname"><span class="pre">leverage_score_exact</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/matrix_tools/leverage_score.html#leverage_score_exact"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.matrix_tools.leverage_score.leverage_score_exact" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="spalor.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+                <li class="footer-element">
+                    
+                        <a href="../_sources/api_doc/matrix_tools.leverage_score.rst.txt" rel="nofollow"> source</a>
+                    
+                </li>
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

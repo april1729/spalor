@@ -1,4 +1,4 @@
-spalor.models.MC
+MC
 =====================
 
 .. autoclass:: spalor.models.MC

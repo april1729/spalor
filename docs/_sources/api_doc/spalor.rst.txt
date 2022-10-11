@@ -1,15 +1,31 @@
 API Reference
 ==============
 
-Subpackages
------------
 
+spalor.models
+--------------
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
-   models
-   algorithms
-   regularization
-   datasets
-   util
+   models.mc
+   models.robust_pca
+   models.cx
+   models.cur
+
+spalor.algorithms
+-------------------
+.. toctree::
+   :maxdepth: 2
+
+   algorithms.mc
+   algorithms.robust_pca
+   algorithms.cx
+
+spalor.matrix_tools
+-------------------
+.. toctree::
+   :maxdepth: 2
+
+   matrix_tools.factorization_util
+   matrix_tools.leverage_score
 

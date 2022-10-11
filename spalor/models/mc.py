@@ -1,6 +1,7 @@
 from spalor.algorithms.mc_algorithms import *
-from spalor.util.factorization_util import *
+from spalor.matrix_tools import *
 import numpy as np
+
 
 class MC:
     '''
@@ -19,13 +20,9 @@ class MC:
     solver : {'lmafit', 'svt', 'alt_min', 'alt_proj'}, default='lmafit'
         solver to use  see ../algorithms/mc_algorithms
 
-    lambda : float, must be larger than 0, default 0.5
-        Regularization parameter.  Only used if solver='svt' or 'apgd'.
+    normalize: (optional) bool, default: True
+        wether to normalize columns of X prior to fitting model
 
-        Increasing the parameter reduces overfiting, but may lead to estimaiton bias towards zero, particularly with solver='svt'
-
-    tol : float, default=1e-6
-        Stopping  criteria for matrix completion solver.
 
     Attributes
     -----------
@@ -49,94 +46,143 @@ class MC:
 
     components : ndarray of size (d2, n_components)
         Principal axes in feature space, representing the directions of maximum variance in the data.
-    '''
-    def __init__(self, n_components=10):
-        self.rank = n_components
 
-    def fit(self, X, y = None, missing_val="nan", normalize=False, method="lmafit"):
+    Examples:
+    ----------
+    ```
+    A = np.array([[1, 1, 2, 0],
+                  [2, 1, 3, np.nan],
+                  [1, 2, np.nan, -1]])
+    mc = MC(n_components=2)
+    mc.fit(A)
+
+    print("Full matrix: \n", mc.to_matrix())
+    ```
+
+    ```
+    X = np.array([[0, 0, 0, 0, 1, 1, 1, 2, 2, 2], [0, 1, 2, 3, 0, 1, 2, 0, 1, 3]])
+    y = np.array([1, 1, 2, 0, 2, 1, 3, 1, 2, -1])
+
+    mc = MC(n_components=2)
+    mc.fit(X, y)
+
+    print("Full matrix: \n", mc.to_matrix())
+
+    print("Entry (1,3): ", mc.predict(np.array([[1, 3]]).T))
+    print("Entry (2,2): ", mc.predict(np.array([[2, 2]]).T))
+    ```
+    '''
+
+    def __init__(self, n_components=10, normalize=False, solver="lmafit"):
+
+        self.rank = n_components
+        self.normalize = normalize
+        self.solver = solver
+
+    def fit(self, X, y=None, missing_val="nan"):
         '''
 
         Parameters
         ----------
-        X :
-
-        y :
-
+        X : ndarray of size (d1,d2) or (n,2)
+            either the matrix to fit with missing values, or the rows and columns where entries are known.  If the second option, y is required
+        y : (optional) 1d array with length n
+            known values of the matrix if X is shape (n,2)
+        missing_val: (optional) str of float,  default: "nan"
+            if X is size (d1,d2), then missing_val is the placeholder for missing entries.  If np.nan, then give the string "nan". 
+        
+        Returns
+        --------
+        MC model fit to input.
         '''
 
         if y is None:
-            (self.d1,self.d2)=X.shape
-            if missing_val=="nan":
-                [I,J]=np.where(~ np.isnan(X))
+            (self.d1, self.d2) = X.shape
+            if missing_val == "nan":
+                [I, J] = np.where(~ np.isnan(X))
             else:
-                [I,J]=np.where(~ (X == missing_val))
-            X_fit=np.vstack([I,J]).T
-            y=X[I,J]
+                [I, J] = np.where(~ (X == missing_val))
+            X_fit = np.vstack([I, J]).T
+            y = X[I, J]
 
         else:
-            if X_fit.shape[0]==2 and X_fit.shape[1]>2:
-                X_fit=X_fit.T
+            if X.shape[0] == 2 and X.shape[1] > 2:
+                X = X.T
 
-            self.d1=max(X[:,0])+1;
-            self.d2=max(X[:,1])+1;
-            X_fit=X
+            self.d1 = max(X[:, 0]) + 1
+            self.d2 = max(X[:, 1]) + 1
+            X_fit = X
 
-        if normalize:
-            self.user_means = np.zeros(self.d1)
-            self.user_std = np.zeros(self.d1)
+        self.user_means = np.zeros(self.d1)
+        self.user_std = np.ones(self.d1)
+
+        if self.normalize:
 
             y_fit = np.zeros(len(y))
             for user in range(0, self.m):
-                idx = np.where(X[:,0] == user)
+                idx = np.where(X[:, 0] == user)
                 self.user_means[user] = np.mean(y[idx])
                 self.user_std[user] = np.std(y[idx])
                 y_fit[idx] = (y[idx] - self.user_means[user]) / self.user_std[user]
         else:
-            y_fit=y;
+            y_fit = y
 
-        if method=="lmafit":
+        if self.solver == "lmafit":
             (U, V) = lmafit(self.d1, self.d2, self.rank, X_fit.T, y_fit)
 
-            (u,s,v)= svd_from_factorization(U,V)
+            (u, s, v) = svd_from_factorization(U, V)
+            self.svd = (u, s, v)
             self.U = u.dot(np.diag(s))
             self.V = v
+            self.S = s
 
+        return self
 
     def fit_transform(self, X, y=None):
         '''
+        fit model and return principal components
+
         Parameters
         ----------
-        X :
-
-        y :
-
+        X : ndarray of size (d1,d2) or (n,2)
+            either the matrix to fit with missing values, or the rows and columns where entries are known.  If the second option, y is required
+        y : (optional) 1d array with length n
+            known values of the matrix if X is shape (n,2)
+        missing_val: (optional) str of float,  default: "nan"
+            if X is size (d1,d2), then missing_val is the placeholder for missing entries.  If np.nan, then give the string "nan". 
+        
+        Returns
+        --------
+        ndarray of principal components, size (d1, n_components)
         '''
-        self.fit(X,y=y)
+
+        self.fit(X, y=y)
         return self.U
 
-    def transform(self,X):
+    def transform(self, X):
         return X.dot(self.V.T)
 
-    def inverse_transform(self,X):
+    def inverse_transform(self, X):
         return X.dot(self.V)
 
     def predict(self, X):
         '''
         Parameters
         ----------
-        X
+        X: ndarray of size (n,2) containing pairs of indices for which to predict value of matrix
 
         Returns
         -------
-
+        1d array of entried, length n
+    
         '''
+
         y = partXY(self.U, self.V, X)
 
-        for user in range(0, self.m):
-            idx = np.where(X[0, :] == user)
-            y[idx] = (y[idx] * self.user_std[user]) + self.user_means[user]
+        # for user in range(0, self.m):
+        #     idx = np.where(X[0, :] == user)
+        #     y[idx] = (y[idx] * self.user_std[user]) + self.user_means[user]
         return y
-
 
     def get_covariance(self):
         """
@@ -150,8 +196,7 @@ class MC:
             Estimated covariance of data.
         """
 
-        return self.V.dot(self.S**2).dot(self.V.transpose())/(d1-1)
-
+        return self.V.T.dot(np.diag(self.s) ** 2).dot(self.V)
 
     def to_matrix(self):
         '''
@@ -165,4 +210,28 @@ class MC:
             Completed matrix
         '''
 
-        return self.V.dot(self.S).dot(self.U)
+        return self.U.dot(self.V.T)
+
+    def get_svd(self):
+        return self.svd
+
+
+if __name__ == "__main__":
+    A = np.array([[1, 1, 2, 0],
+                  [2, 1, 3, np.nan],
+                  [1, 2, np.nan, -1]])
+    mc = MC(n_components=2)
+    mc.fit(A)
+
+    print("Full matrix: \n", mc.to_matrix())
+
+    X = np.array([[0, 0, 0, 0, 1, 1, 1, 2, 2, 2], [0, 1, 2, 3, 0, 1, 2, 0, 1, 3]])
+    y = np.array([1, 1, 2, 0, 2, 1, 3, 1, 2, -1])
+
+    mc = MC(n_components=2)
+    mc.fit(X, y)
+
+    print("Full matrix: \n", mc.to_matrix())
+
+    print("Entry (1,3): ", mc.predict(np.array([[1, 3]]).T))
+    print("Entry (2,2): ", mc.predict(np.array([[2, 2]]).T))

@@ -1,4 +1,4 @@
-spalor.models.RPCA
+RPCA
 =====================
 
 .. autoclass:: spalor.models.RPCA

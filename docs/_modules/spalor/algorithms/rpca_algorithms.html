@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: spalor.algorithms.rpca_algorithms</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1><a href="../../../index.html"> SpaLoR </a> </h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <h1>Source code for spalor.algorithms.rpca_algorithms</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">..regularization</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="altProjNiave"><a class="viewcode-back" href="../../../api_doc/algorithms.robust_pca.html#spalor.algorithms.rpca_algorithms.altProjNiave">[docs]</a><span class="k">def</span> <span class="nf">altProjNiave</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">fTol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxIter</span><span class="p">):</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">sparseProj</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">lowRankProj</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+        <span class="n">res0</span> <span class="o">=</span> <span class="n">res</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="p">(</span><span class="n">L</span> <span class="o">+</span> <span class="n">S</span><span class="p">),</span> <span class="nb">ord</span><span class="o">=</span><span class="s1">&#39;fro&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">res0</span> <span class="o">-</span> <span class="n">res</span><span class="p">)</span><span class="o">/</span><span class="n">res</span>  <span class="o">&lt;</span> <span class="n">fTol</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="altSoftThresh"><a class="viewcode-back" href="../../../api_doc/algorithms.robust_pca.html#spalor.algorithms.rpca_algorithms.altSoftThresh">[docs]</a><span class="k">def</span> <span class="nf">altSoftThresh</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fTol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">sqrtN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># TODO: Make beta increase with every iteration</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxIter</span><span class="p">):</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">sparseSoftThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">sqrtN</span> <span class="o">*</span> <span class="n">beta</span><span class="p">))</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">lowRankSoftThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span>
+        <span class="c1"># TODO: fix the stopping criteria in altSoftThresh</span>
+    <span class="c1">#  res0 = res</span>
+    <span class="c1"># res = np.linalg.norm(M-(L+S), ord=&#39;fro&#39;)</span>
+    <span class="c1"># if (res0-res)/res &lt; fTol:</span>
+    <span class="c1">#     break</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">S</span></div>
+
+<div class="viewcode-block" id="altAdaptiveThresh"><a class="viewcode-back" href="../../../api_doc/algorithms.robust_pca.html#spalor.algorithms.rpca_algorithms.altAdaptiveThresh">[docs]</a><span class="k">def</span> <span class="nf">altAdaptiveThresh</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">fTol</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">sqrtN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="c1"># TODO: Make beta increase with every iteration</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxIter</span><span class="p">):</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">sparseSoftThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">sqrtN</span> <span class="o">*</span> <span class="n">beta</span><span class="p">))</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">lowRankSoftThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">beta</span><span class="p">)</span>
+        <span class="c1"># TODO: fix the stopping criteria in altSoftThresh</span>
+    <span class="c1">#  res0 = res</span>
+    <span class="c1"># res = np.linalg.norm(M-(L+S), ord=&#39;fro&#39;)</span>
+    <span class="c1"># if (res0-res)/res &lt; fTol:</span>
+    <span class="c1">#     break</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">S</span></div>
+
+<div class="viewcode-block" id="altProj"><a class="viewcode-back" href="../../../api_doc/algorithms.robust_pca.html#spalor.algorithms.rpca_algorithms.altProj">[docs]</a><span class="k">def</span> <span class="nf">altProj</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">r</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">beta</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">/</span> <span class="n">n</span> <span class="o">**</span> <span class="mf">0.5</span>
+
+    <span class="n">threshold</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">singularValue</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">r</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">n</span><span class="o">-</span><span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">sparseHardThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">r</span><span class="p">):</span>
+        <span class="n">T</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">beta</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">eps</span><span class="p">)))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">T</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="p">):</span>
+            <span class="n">threshold</span> <span class="o">=</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">singularValue</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="n">t</span> <span class="o">*</span> <span class="n">singularValue</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+            <span class="n">L</span> <span class="o">=</span> <span class="n">lowRankProj</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="n">sparseHardThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="n">threshold</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">singularValue</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">beta</span> <span class="o">*</span> <span class="p">(</span><span class="n">singularValue</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span> <span class="o">&lt;=</span> <span class="n">eps</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">S</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span> <span class="n">S</span></div>
+
+<div class="viewcode-block" id="altNonconvexThresh"><a class="viewcode-back" href="../../../api_doc/algorithms.robust_pca.html#spalor.algorithms.rpca_algorithms.altNonconvexThresh">[docs]</a><span class="k">def</span> <span class="nf">altNonconvexThresh</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">lambdas</span><span class="p">,</span> <span class="n">maxIter</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">M</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxIter</span><span class="p">):</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">sparseProxThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">L</span><span class="p">,</span> <span class="n">proxFuncS</span><span class="p">)</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">lowRankProxThresholding</span><span class="p">(</span><span class="n">M</span> <span class="o">-</span> <span class="n">S</span><span class="p">,</span> <span class="n">proxFuncL</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span><span class="n">S</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
+    <span class="n">S</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">S</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">S</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">10</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">L</span> <span class="o">+</span> <span class="n">S</span>
+
+    <span class="p">(</span><span class="n">Lproj</span><span class="p">,</span> <span class="n">Sproj</span><span class="p">)</span> <span class="o">=</span> <span class="n">altProj</span><span class="p">(</span><span class="n">M</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">Lproj</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">Sproj</span><span class="p">))</span>
+</pre></div>
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/matrix_completion.html#mathematical-details">Mathematical details</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/robust_PCA.html">Robust Principle Component Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/robust_PCA.html#the-rpca-class">The <code class="docutils literal notranslate"><span class="pre">RPCA</span></code> class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cx-class">The <code class="docutils literal notranslate"><span class="pre">CX</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cur-class">The <code class="docutils literal notranslate"><span class="pre">CUR</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#computing-leverage-sores">Computing leverage sores</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/spalor.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-models">spalor.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.mc.html">MC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.robust_pca.html">RPCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cx.html">CX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cur.html">CUR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.mc.html">mc_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.robust_pca.html">rpca_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.cx.html">cx_algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.factorization_util.html">Factorization tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.leverage_score.html">leverage_score</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

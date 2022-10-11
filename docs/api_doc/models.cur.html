@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2D2D2D" />
   
-  <title>SpaLoR :: spalor.models.CUR</title>
+  <title>SpaLoR :: CUR</title>
   
 
   <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
@@ -46,12 +46,75 @@
       <div id="main-content-container">
         <div id="main-content" role="main">
           
-  <section id="spalor-models-cur">
-<h1>spalor.models.CUR<a class="headerlink" href="#spalor-models-cur" title="Permalink to this headline">¶</a></h1>
+  <section id="cur">
+<h1>CUR<a class="headerlink" href="#cur" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="spalor.models.CUR">
-<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">CUR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cur.html#CUR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CUR" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">spalor.models.</span></span><span class="sig-name descname"><span class="pre">CUR</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n_rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">r</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cur.html#CUR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CUR" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><dl class="simple">
+<dt>Dimensionality reduction based on a low-rank matrix faactorization:</dt><dd><p>A=C*U*R</p>
+</dd>
+</dl>
+<p>where C consists of columns sampled from A, R is rows sampled from A, and U=(C’<a href="#id1"><span class="problematic" id="id2">*</span></a>C)^-1 <a href="#id3"><span class="problematic" id="id4">*</span></a>C’ <a href="#id5"><span class="problematic" id="id6">*</span></a>A  * R’<a href="#id7"><span class="problematic" id="id8">*</span></a>(R*R’)^-1.</p>
+<p>Typically, the columns and rows are selected at random with probabilites proportional to the leverage scores.</p>
+<dl class="simple">
+<dt>n_rows<span class="classifier">int, default=10</span></dt><dd><p>Number of rows to sample.</p>
+</dd>
+<dt>n_cols<span class="classifier">int, default=10</span></dt><dd><p>Number of columns to sample.</p>
+</dd>
+<dt>method<span class="classifier">{‘exact’, ‘approximate’, ‘random’}, default=’leverage_scores_QR’</span></dt><dd><dl class="simple">
+<dt>method to selct rows.</dt><dd><ul class="simple">
+<li><p>“exact”: randomly select by leverage scores</p></li>
+<li><p>“approximate” : randomly select columns by approximated leverage scores</p></li>
+<li><p>“random” : randomly select columns</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="simple">
+<dt>d1<span class="classifier">int</span></dt><dd><p>number or rows in the original matrix</p>
+</dd>
+<dt>d2<span class="classifier">int</span></dt><dd><p>number of columns in the original matrix</p>
+</dd>
+<dt>cols<span class="classifier">list</span></dt><dd><p>list containing indices of columns sampled</p>
+</dd>
+<dt>C<span class="classifier">ndarray, shape = (d1,n_components)</span></dt><dd><p>Columns sampled</p>
+</dd>
+<dt>X<span class="classifier">ndarray, shape = (n_components, d2)</span></dt><dd><p>Score matrix, often used for classification. Coordinates in the lower dimensional column space</p>
+</dd>
+</dl>
+<p><a href="#id9"><span class="problematic" id="id10">``</span></a>`
+A=np.array([[1, 1, 2, 2],</p>
+<blockquote>
+<div><p>[2, 1, 3, 5],
+[1, 2, 3, 1],
+[3, 1, 4, 8]], dtype=float)</p>
+</div></blockquote>
+<p>cur=CUR(n_rows=2, n_cols=2)
+cur.fit(A)</p>
+<p>print(“C:</p>
+</div></blockquote>
+<dl class="simple">
+<dt>“, cur.C)</dt><dd><p>print(“U:</p>
+</dd>
+<dt>“, cur.U)</dt><dd><p>print(“R:</p>
+</dd>
+<dt>“, cur.R)</dt><dd><p>print(“columns used:</p>
+</dd>
+<dt>“, cur.cols)</dt><dd><p>print(“rows used:</p>
+</dd>
+<dt>“, cur.rows)</dt><dd><p><a href="#id11"><span class="problematic" id="id12">``</span></a><a href="#id13"><span class="problematic" id="id14">`</span></a></p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="spalor.models.CUR.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rows</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/spalor/models/cur.html#CUR.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#spalor.models.CUR.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>fit matrix A to CUR model</p>
+</dd></dl>
+
+</dd></dl>
 
 </section>
 
@@ -78,28 +141,22 @@
   
     <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../user_guide/index.html">User Guide</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR, CX, and Leverage Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/datasets.html">SpaLoR Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../user_guide/robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="reference internal" href="spalor.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="models.html">spalor.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="algorithms.html">spalor.algorithms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="regularization.html">spalor.regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="datasets.html">spalor.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="util.html">spalor.util</a></li>
-</ul>
-</li>
+<li class="toctree-l2 current"><a class="reference internal" href="spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
 </ul>
 </li>
 </ul>

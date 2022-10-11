@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2D2D2D" />
   
-  <title>SpaLoR :: CUR, CX, and Leverage Scores</title>
+  <title>SpaLoR :: CUR and CX decomposions</title>
   
 
   <link rel="icon" type="image/png" sizes="32x32" href="../_static/img/favicon-32x32.png">
@@ -21,6 +21,7 @@
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
   
 
   <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
@@ -46,8 +47,190 @@
       <div id="main-content-container">
         <div id="main-content" role="main">
           
-  <section id="cur-cx-and-leverage-scores">
-<h1>CUR, CX, and Leverage Scores<a class="headerlink" href="#cur-cx-and-leverage-scores" title="Permalink to this headline">¶</a></h1>
+  <section id="cur-and-cx-decomposions">
+<h1>CUR and CX decomposions<a class="headerlink" href="#cur-and-cx-decomposions" title="Permalink to this headline">¶</a></h1>
+<p>Given a large, low rank matrix, CX decomposition selects a subset of
+columns and finds a representation of the original matrix in terms of
+the selected columns. For a given matrix, <span class="math notranslate nohighlight">\(A\)</span> with <span class="math notranslate nohighlight">\(n\)</span> rows
+and <span class="math notranslate nohighlight">\(d\)</span> columns, the decomposition is, <span class="math notranslate nohighlight">\(A=CX\)</span> where
+<span class="math notranslate nohighlight">\(C\)</span> is a <span class="math notranslate nohighlight">\(d \times n_c\)</span> matrix, whose columns are all
+columns in <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(X\)</span> is a <span class="math notranslate nohighlight">\(n_c \times n\)</span> that
+minimizes <span class="math notranslate nohighlight">\(||A-CX||_F^2\)</span>.</p>
+<p>For example, consider the following matrix:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{bmatrix}
+1 &amp; 1 &amp;2 &amp; 2\\
+2&amp;1&amp;3&amp;5\\
+1&amp;2&amp;3&amp;1\\
+3 &amp; 1 &amp; 4 &amp; 8
+\end{bmatrix}\end{split}\]</div>
+<p>If we chose the first two columns as <span class="math notranslate nohighlight">\(C\)</span>, the CX decomposition
+would be:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}C=\begin{bmatrix}
+1 &amp; 1\\
+2&amp;1\\
+1&amp;2\\
+3 &amp; 1\\
+\end{bmatrix}, X=\begin{bmatrix}
+1 &amp; 0 &amp; 1&amp; 3 \\
+0 &amp; 1 &amp; 1&amp; -1 \\
+\end{bmatrix}\end{split}\]</div>
+<p><a class="reference external" href="https://www.pnas.org/doi/epdf/10.1073/pnas.0803205106">CUR
+decompositions</a>
+work in a very similiar way, but also selects a subset of rows in
+addition to columns. For a given matrix, <span class="math notranslate nohighlight">\(A\)</span> with <span class="math notranslate nohighlight">\(n\)</span> rows
+and <span class="math notranslate nohighlight">\(d\)</span> columns, the decomposition is, <span class="math notranslate nohighlight">\(A=CUR\)</span> where
+<span class="math notranslate nohighlight">\(C\)</span> is a <span class="math notranslate nohighlight">\(d \times n_c\)</span> matrix, whose columns are all
+columns in <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(R\)</span> is a <span class="math notranslate nohighlight">\(n_r \times n\)</span> whose rows
+are all rows in <span class="math notranslate nohighlight">\(A\)</span>, and <span class="math notranslate nohighlight">\(U\)</span> is the <span class="math notranslate nohighlight">\(n_c \times n_r\)</span>
+matrix that minimized that minimizes <span class="math notranslate nohighlight">\(||A-CUR||_F^2\)</span>.</p>
+<p>Using the same example, a CUR decomposition of <span class="math notranslate nohighlight">\(A\)</span> could be:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}C=\begin{bmatrix}
+1 &amp; 1\\
+2&amp;1\\
+1&amp;2\\
+3 &amp; 1
+\end{bmatrix},
+R=\begin{bmatrix}
+1 &amp; 1 &amp;2 &amp; 2\\
+2&amp;1&amp;3&amp;5\\
+\end{bmatrix} , U=\begin{bmatrix} -1 &amp; 1\\ 2 &amp; -1\end{bmatrix}\end{split}\]</div>
+<p>CX and CUR decompositions can be done with any set of rows or columns.
+One way to select rows and columns is by calculating the <a class="reference external" href="https://en.wikipedia.org/wiki/Leverage_(statistics)">leverage
+score</a> of each
+row and columns. The leverage score is a measure of how important each
+row (or column) is when constructing the low-rank approximation of a
+matrix. Once the leverage scores have been calculated, we can randomly
+sample rows (or columns) using the leverage scores as probabilities.</p>
+<p>Calculated the leverage scores exactly requires computing the <a class="reference external" href="https://en.wikipedia.org/wiki/Singular_value_decomposition#Truncated_SVD">truncated
+SVD</a>,
+but the can be
+<a class="reference external" href="https://www.stat.berkeley.edu/~mmahoney/pubs/coherence-jmlr12.pdf">approximated</a>
+quickly and accurately.</p>
+<section id="the-cx-class">
+<h2>The <code class="docutils literal notranslate"><span class="pre">CX</span></code> class<a class="headerlink" href="#the-cx-class" title="Permalink to this headline">¶</a></h2>
+<p>:class:<code class="docutils literal notranslate"><span class="pre">CX</span></code></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">spalor.models</span> <span class="kn">import</span> <span class="n">CX</span>
+
+<span class="n">A</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]])</span>
+
+<span class="n">cx</span><span class="o">=</span><span class="n">CX</span><span class="p">()</span>
+<span class="n">X</span><span class="o">=</span><span class="n">cx</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cx</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;columns used: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cx</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>
+ <span class="p">[[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="n">X</span><span class="p">:</span>
+ <span class="p">[[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">2</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">2</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">3</span> <span class="mi">1</span><span class="p">]]</span>
+<span class="n">columns</span> <span class="n">used</span><span class="p">:</span>
+ <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cx</span><span class="o">=</span><span class="n">CX</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X</span><span class="o">=</span><span class="n">cx</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cx</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;columns used: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cx</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>
+ <span class="p">[[</span><span class="mi">2</span> <span class="mi">2</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">5</span> <span class="mi">5</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">8</span> <span class="mi">8</span><span class="p">]]</span>
+<span class="n">X</span><span class="p">:</span>
+ <span class="p">[[</span><span class="mi">2</span> <span class="mi">2</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">5</span> <span class="mi">5</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">1</span> <span class="mi">1</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">8</span> <span class="mi">8</span><span class="p">]]</span>
+<span class="n">columns</span> <span class="n">used</span><span class="p">:</span>
+ <span class="p">[</span><span class="mi">3</span> <span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="the-cur-class">
+<h2>The <code class="docutils literal notranslate"><span class="pre">CUR</span></code> class<a class="headerlink" href="#the-cur-class" title="Permalink to this headline">¶</a></h2>
+<p>:class:<code class="docutils literal notranslate"><span class="pre">CUR</span></code></p>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">spalor.models</span> <span class="kn">import</span> <span class="n">CUR</span>
+
+<span class="n">A</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="n">cur</span> <span class="o">=</span> <span class="n">CUR</span><span class="p">(</span><span class="n">n_rows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_cols</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">cur</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;C:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cur</span><span class="o">.</span><span class="n">C</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;U:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cur</span><span class="o">.</span><span class="n">U</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;R:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cur</span><span class="o">.</span><span class="n">R</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;columns used: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cur</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;rows used: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">cur</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="p">:</span>
+ <span class="p">[[</span><span class="mf">2.</span> <span class="mf">2.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">3.</span> <span class="mf">5.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">3.</span> <span class="mf">1.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">4.</span> <span class="mf">8.</span><span class="p">]]</span>
+<span class="n">U</span><span class="p">:</span>
+ <span class="p">[[</span><span class="o">-</span><span class="mf">0.05</span>  <span class="mf">0.4</span> <span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.15</span> <span class="o">-</span><span class="mf">0.2</span> <span class="p">]]</span>
+<span class="n">R</span><span class="p">:</span>
+ <span class="p">[[</span><span class="mf">3.</span> <span class="mf">1.</span> <span class="mf">4.</span> <span class="mf">8.</span><span class="p">]</span>
+ <span class="p">[</span><span class="mf">1.</span> <span class="mf">2.</span> <span class="mf">3.</span> <span class="mf">1.</span><span class="p">]]</span>
+<span class="n">columns</span> <span class="n">used</span><span class="p">:</span>
+ <span class="p">[</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])]</span>
+<span class="n">rows</span> <span class="n">used</span><span class="p">:</span>
+ <span class="p">[</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">])]</span>
+</pre></div>
+</div>
+</section>
+<section id="computing-leverage-sores">
+<h2>Computing leverage sores<a class="headerlink" href="#computing-leverage-sores" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">spalor.matrix_tools</span> <span class="kn">import</span> <span class="n">leverage_score</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">A</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+            <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">leverage_score</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.05172414</span> <span class="mf">0.18965517</span> <span class="mf">0.31034483</span> <span class="mf">0.44827586</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">svdA</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">leverage_score</span><span class="p">(</span><span class="n">svdA</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.05172414</span> <span class="mf">0.18965517</span> <span class="mf">0.31034483</span> <span class="mf">0.44827586</span><span class="p">]</span>
+</pre></div>
+</div>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">leverage_score</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;approximate&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mf">0.08855471</span> <span class="mf">0.00874692</span> <span class="mf">0.09747291</span> <span class="mf">0.80522546</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -73,28 +256,22 @@
   
     <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">CUR, CX, and Leverage Scores</a></li>
-<li class="toctree-l2"><a class="reference internal" href="datasets.html">SpaLoR Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="matrix_completion.html">The MC class in SpaLoR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="robust_PCA.html">Robust Principle Component Analysis</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CUR and CX decomposions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../examples/index.html">Examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../examples/Dimensionality%20reduction%20via%20PCA%20with%20missing%20data%20to%20classify%20tumours.html">Dimensionality Reduction via PCA with Missing Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/RPCA_background_forground_seperation.html">RPCA for Background-Foreground Seperation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Matrix Completion for movie recomendations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../api_doc/spalor.html">API Reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#subpackages">Subpackages</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/models.html">spalor.models</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/algorithms.html">spalor.algorithms</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/regularization.html">spalor.regularization</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/datasets.html">spalor.datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../api_doc/util.html">spalor.util</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-models">spalor.models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a></li>
 </ul>
 </li>
 </ul>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#2D2D2D" />
+  
+  <title>SpaLoR :: spalor.models.mc</title>
+  
+
+  <link rel="icon" type="image/png" sizes="32x32" href="../../../_static/img/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../../../_static/img/favicon-16x16.png">
+  <link rel="index" title="Index" href="../../../genindex.html"/>
+
+  <link rel="stylesheet" href="../../../_static/css/insegel.css"/>
+  <link rel="stylesheet" href="../../../_static/css/custom.css"/>
+
+  <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/documentation_options.js"></script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+  
+
+  <script src="https://email.tl.fortawesome.com/c/eJxNjUEOgyAQAF8jR7Kw6wIHDh7sP1Cw2mgxgmn6-3JsMqc5zEQfE8dkxOY1KKMUOI3ACFKRJpSW2AAp7ontYIaxI6i7XPJVwyeVfCQ550Os3jLrGSNOLgbdAy6s0PBk2TFNjEbsfq31LB0OnX407pJa5v2faRadwSW63mn5KuLyR9j2tgx3zecanl-55R_-jjPs"></script> 
+</head>
+
+<body>
+  <div id="insegel-container">
+    <header>
+      <div id="logo-container">
+          
+          <h1><a href="../../../index.html"> SpaLoR </a> </h1>
+          
+      </div>
+      <div id="project-container">
+        
+        <h1>Documentation</h1>
+        
+      </div>
+    </header>
+
+    <div id="content-container">
+
+      <div id="main-content-container">
+        <div id="main-content" role="main">
+          
+  <h1>Source code for spalor.models.mc</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">spalor.algorithms.mc_algorithms</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">spalor.matrix_tools</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="MC"><a class="viewcode-back" href="../../../api_doc/models.mc.html#spalor.models.MC">[docs]</a><span class="k">class</span> <span class="nc">MC</span><span class="p">:</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Matrix completion.  There are two main ways to use this class:</span>
+
+<span class="sd">        - PCA when some proportion of the data is missing.  This class will calculate the principal components with the data available.  This can be used to fill in the missing data, or the principal components and scores can be used on their own as if the data was never missing to begin with.</span>
+<span class="sd">        - A supervised machine learning algorithm based on collaborative filtering.  Typically, this is thought as a recommendation system where d1 is the number of users, d2 is the number of items, and the values are the users ratings on the items. The features are the index of the user and the item, and the target variable is the rating.</span>
+
+<span class="sd">    See the `user guide &lt;http://www.spalor.org/user_guide/matrix_completion&gt;` for a detailed description</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    n_components : int, default = 10</span>
+<span class="sd">        Number of principle components to solve for, that is, the rank of the matrix to be completed. If set to a number between 0 ad 1, the parameter will be taken to be the ratio of the smallest singular value to the largest.</span>
+
+<span class="sd">    solver : {&#39;lmafit&#39;, &#39;svt&#39;, &#39;alt_min&#39;, &#39;alt_proj&#39;}, default=&#39;lmafit&#39;</span>
+<span class="sd">        solver to use  see ../algorithms/mc_algorithms</span>
+
+<span class="sd">    normalize: (optional) bool, default: True</span>
+<span class="sd">        wether to normalize columns of X prior to fitting model</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    -----------</span>
+<span class="sd">    d1 : int</span>
+<span class="sd">        Number of rows in matrix (typically, the number of samples in the dataset)</span>
+
+<span class="sd">    d2 : int</span>
+<span class="sd">        Number of columns in the matrix (typically, the number of features in the dataset)</span>
+
+<span class="sd">    U : ndarray of size (d1, n_components)</span>
+<span class="sd">        left singular vectors</span>
+
+<span class="sd">    S : ndarray of size (n_components,)</span>
+<span class="sd">        singular values</span>
+
+<span class="sd">    V : ndarray of size (d2, n_components)</span>
+<span class="sd">        right singular vectors.</span>
+
+<span class="sd">    T : ndarray of size (d1, n_components)</span>
+<span class="sd">        Score matrix, U*S.  Often used for classification from PCA.</span>
+
+<span class="sd">    components : ndarray of size (d2, n_components)</span>
+<span class="sd">        Principal axes in feature space, representing the directions of maximum variance in the data.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ```</span>
+<span class="sd">    A = np.array([[1, 1, 2, 0],</span>
+<span class="sd">                  [2, 1, 3, np.nan],</span>
+<span class="sd">                  [1, 2, np.nan, -1]])</span>
+<span class="sd">    mc = MC(n_components=2)</span>
+<span class="sd">    mc.fit(A)</span>
+
+<span class="sd">    print(&quot;Full matrix: \n&quot;, mc.to_matrix())</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    ```</span>
+<span class="sd">    X = np.array([[0, 0, 0, 0, 1, 1, 1, 2, 2, 2], [0, 1, 2, 3, 0, 1, 2, 0, 1, 3]])</span>
+<span class="sd">    y = np.array([1, 1, 2, 0, 2, 1, 3, 1, 2, -1])</span>
+
+<span class="sd">    mc = MC(n_components=2)</span>
+<span class="sd">    mc.fit(X, y)</span>
+
+<span class="sd">    print(&quot;Full matrix: \n&quot;, mc.to_matrix())</span>
+
+<span class="sd">    print(&quot;Entry (1,3): &quot;, mc.predict(np.array([[1, 3]]).T))</span>
+<span class="sd">    print(&quot;Entry (2,2): &quot;, mc.predict(np.array([[2, 2]]).T))</span>
+<span class="sd">    ```</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_components</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;lmafit&quot;</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">rank</span> <span class="o">=</span> <span class="n">n_components</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span> <span class="o">=</span> <span class="n">normalize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">=</span> <span class="n">solver</span>
+
+<div class="viewcode-block" id="MC.fit"><a class="viewcode-back" href="../../../api_doc/models.mc.html#spalor.models.MC.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">missing_val</span><span class="o">=</span><span class="s2">&quot;nan&quot;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : ndarray of size (d1,d2) or (n,2)</span>
+<span class="sd">            either the matrix to fit with missing values, or the rows and columns where entries are known.  If the second option, y is required</span>
+<span class="sd">        y : (optional) 1d array with length n</span>
+<span class="sd">            known values of the matrix if X is shape (n,2)</span>
+<span class="sd">        missing_val: (optional) str of float,  default: &quot;nan&quot;</span>
+<span class="sd">            if X is size (d1,d2), then missing_val is the placeholder for missing entries.  If np.nan, then give the string &quot;nan&quot;. </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        MC model fit to input.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">if</span> <span class="n">y</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d2</span><span class="p">)</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+            <span class="k">if</span> <span class="n">missing_val</span> <span class="o">==</span> <span class="s2">&quot;nan&quot;</span><span class="p">:</span>
+                <span class="p">[</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">X</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="p">[</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span> <span class="p">(</span><span class="n">X</span> <span class="o">==</span> <span class="n">missing_val</span><span class="p">))</span>
+            <span class="n">X_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">I</span><span class="p">,</span> <span class="n">J</span><span class="p">]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">X</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">T</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">d1</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">d2</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">X_fit</span> <span class="o">=</span> <span class="n">X</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">user_std</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">:</span>
+
+            <span class="n">y_fit</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">):</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">user</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">user_means</span><span class="p">[</span><span class="n">user</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">user_std</span><span class="p">[</span><span class="n">user</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+                <span class="n">y_fit</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_means</span><span class="p">[</span><span class="n">user</span><span class="p">])</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">user_std</span><span class="p">[</span><span class="n">user</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y_fit</span> <span class="o">=</span> <span class="n">y</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">solver</span> <span class="o">==</span> <span class="s2">&quot;lmafit&quot;</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span> <span class="o">=</span> <span class="n">lmafit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">d1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">rank</span><span class="p">,</span> <span class="n">X_fit</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">y_fit</span><span class="p">)</span>
+
+            <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="o">=</span> <span class="n">svd_from_factorization</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">V</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">svd</span> <span class="o">=</span> <span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">U</span> <span class="o">=</span> <span class="n">u</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">V</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">s</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="MC.fit_transform"><a class="viewcode-back" href="../../../api_doc/models.mc.html#spalor.models.MC.fit_transform">[docs]</a>    <span class="k">def</span> <span class="nf">fit_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        fit model and return principal components</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X : ndarray of size (d1,d2) or (n,2)</span>
+<span class="sd">            either the matrix to fit with missing values, or the rows and columns where entries are known.  If the second option, y is required</span>
+<span class="sd">        y : (optional) 1d array with length n</span>
+<span class="sd">            known values of the matrix if X is shape (n,2)</span>
+<span class="sd">        missing_val: (optional) str of float,  default: &quot;nan&quot;</span>
+<span class="sd">            if X is size (d1,d2), then missing_val is the placeholder for missing entries.  If np.nan, then give the string &quot;nan&quot;. </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        --------</span>
+<span class="sd">        ndarray of principal components, size (d1, n_components)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span></div>
+
+    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">inverse_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">X</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MC.predict"><a class="viewcode-back" href="../../../api_doc/models.mc.html#spalor.models.MC.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        X: ndarray of size (n,2) containing pairs of indices for which to predict value of matrix</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        1d array of entried, length n</span>
+<span class="sd">    </span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">partXY</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">,</span> <span class="n">X</span><span class="p">)</span>
+
+        <span class="c1"># for user in range(0, self.m):</span>
+        <span class="c1">#     idx = np.where(X[0, :] == user)</span>
+        <span class="c1">#     y[idx] = (y[idx] * self.user_std[user]) + self.user_means[user]</span>
+        <span class="k">return</span> <span class="n">y</span></div>
+
+<div class="viewcode-block" id="MC.get_covariance"><a class="viewcode-back" href="../../../api_doc/models.mc.html#spalor.models.MC.get_covariance">[docs]</a>    <span class="k">def</span> <span class="nf">get_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculates an estimate of covariance matrix.</span>
+
+<span class="sd">        Entry (i,j) will be a the correlation between feature i and feature j.  A value close to 1 is a strong postive correlatio, a value close to -1 is a strong negative correlation, and a value close to 0 is no correlation.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        cov : array, shape=(d2, d2)</span>
+<span class="sd">            Estimated covariance of data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MC.to_matrix"><a class="viewcode-back" href="../../../api_doc/models.mc.html#spalor.models.MC.to_matrix">[docs]</a>    <span class="k">def</span> <span class="nf">to_matrix</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Calculates the completed matrix.</span>
+
+<span class="sd">        Warning: In some cases, this may be to large for memory.  For example, when being used for recommendation systems.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -----------</span>
+<span class="sd">        M : ndarray of size (d1,d2)</span>
+<span class="sd">            Completed matrix</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">U</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">V</span><span class="o">.</span><span class="n">T</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">get_svd</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">svd</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">],</span>
+                  <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+    <span class="n">mc</span> <span class="o">=</span> <span class="n">MC</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Full matrix: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mc</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())</span>
+
+    <span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">mc</span> <span class="o">=</span> <span class="n">MC</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mc</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Full matrix: </span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">mc</span><span class="o">.</span><span class="n">to_matrix</span><span class="p">())</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Entry (1,3): &quot;</span><span class="p">,</span> <span class="n">mc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Entry (2,2): &quot;</span><span class="p">,</span> <span class="n">mc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span><span class="o">.</span><span class="n">T</span><span class="p">))</span>
+</pre></div>
+
+        </div>
+      </div>
+
+      <div id="side-menu-container">
+
+        <div id="search" role="search">
+        <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+            <input type="text" name="q" placeholder="Search..." />
+            <input type="hidden" name="check_keywords" value="yes" />
+            <input type="hidden" name="area" value="default" />
+        </form>
+</div>
+
+        <div id="side-menu" role="navigation">
+
+          
+  
+    
+  
+  
+    <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user_guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html">Matrix Completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/matrix_completion.html#the-mc-class">The <code class="docutils literal notranslate"><span class="pre">MC</span></code> class</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/matrix_completion.html#mathematical-details">Mathematical details</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/robust_PCA.html">Robust Principle Component Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/robust_PCA.html#the-rpca-class">The <code class="docutils literal notranslate"><span class="pre">RPCA</span></code> class</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html">CUR and CX decomposions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cx-class">The <code class="docutils literal notranslate"><span class="pre">CX</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#the-cur-class">The <code class="docutils literal notranslate"><span class="pre">CUR</span></code> class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../user_guide/Leverage_CX_CUR.html#computing-leverage-sores">Computing leverage sores</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/PCA_with_missing_data.html">PCA with Missing Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/interpretable_low_rank_models_for_tumour_classification.html">CX Matrix Decompositions for Tumour Classifications</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../examples/movie_lens_mc.html">Movie Recomendations with Matrix Completion</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/spalor.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-models">spalor.models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.mc.html">MC</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.robust_pca.html">RPCA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cx.html">CX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/models.cur.html">CUR</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-algorithms">spalor.algorithms</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.mc.html">mc_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.robust_pca.html">rpca_algorithms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/algorithms.cx.html">cx_algorithms</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api_doc/spalor.html#spalor-matrix-tools">spalor.matrix_tools</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.factorization_util.html">Factorization tools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api_doc/matrix_tools.leverage_score.html">leverage_score</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  
+
+
+        </div>
+
+        
+
+      </div>
+
+    </div>
+
+<footer>
+    <div id="footer-info">
+        <ul id="build-details">
+            
+
+            
+
+            
+        </ul>
+
+        
+            <div id="copyright">
+                &copy; 2022, April Sagan
+            </div>
+        
+
+        <div id="credit">
+            created with <a href="http://sphinx-doc.org/">Sphinx</a> and <a href="https://github.com/Autophagy/insegel">Insegel</a>
+
+        </div>
+    </div>
+
+    <a id="menu-toggle" class="fa fa-bars" aria-hidden="true"></a>
+
+    <script type="text/javascript">
+      $("#menu-toggle").click(function() {
+        $("#menu-toggle").toggleClass("toggled");
+        $("#side-menu-container").slideToggle(300);
+      });
+    </script>
+
+</footer> 
+
+</div>
+
+</body>
+</html>

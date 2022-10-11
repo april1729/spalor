@@ -1,4 +1,4 @@
-from ..algorithms.rpca_algorithms import *
+from spalor.algorithms.rpca_algorithms import *
 from scipy.sparse.linalg import svds
 class RPCA():
     '''
@@ -51,9 +51,21 @@ class RPCA():
         Principal axes in feature space, representing the directions of maximum variance in the data.
 
 
+    Example:
+    ```
+    A = np.random.randn(50, 2).dot(np.random.randn(2,30))
+    S = np.random.rand(*A.shape)<0.1
+
+    rpca=RPCA(n_components=2, sparsity=0.1)
+    rpca.fit(A+S)
+
+    print("Denoised matrix error: \n", np.linalg.norm(rpca.to_matrix()-A)/np.linalg.norm(A))
+    print("Outliersm error: \n", np.linalg.norm(rpca.outliers_-S)/np.linalg.norm(S))
+    ```
+
     '''
-    def __init__(self, r=10, sparsity=0.05):
-        self.r = r
+    def __init__(self, n_components=10, sparsity=0.05):
+        self.n_components = n_components
         self.sparsity = sparsity
 
     def fit(self,M):
@@ -66,14 +78,18 @@ class RPCA():
 
         self.M=M;
         d1,d2=M.shape
+        self.d1=d1
+        self.d2=d2
         if self.sparsity<1:
             self.sparsity=round(d1*d2*self.sparsity)
-        (L,outliers) = altProjNiave(self.M, self.r, self.sparsity, fTol=1e-10, maxIter=1000)
+        (L,outliers) = altProjNiave(self.M, self.n_components, self.sparsity, fTol=1e-10, maxIter=10000)
         #(L,S) = altProj(self.M,r=self.r)
-        u,s,vt=svds(L,self.r)
-        self.U=np.reshape(u.dot(np.diag(s)),(d1,self.r))
-        self.V=vt.transpose()
-        self.S=S
+        u,s,v=svds(L, self.n_components)
+        self.L=L
+        self.U=u.reshape((-1, self.n_components))
+        self.V=v
+        self.S=s
+        self.outliers_=outliers
 
     def fit_transform(self,M):
         '''
@@ -90,7 +106,7 @@ class RPCA():
 
         self.fit(M)
 
-        return self.U.dot(self.S)
+        return self.U.dot(np.diag(self.S))
 
     def transform(X):
         
@@ -101,10 +117,10 @@ class RPCA():
         '''
         
 
-        return (U, outliers)
+        pass
 
 
-    def inverse_transform(X):
+    def inverse_transform(self,X):
         return X.dot(self.V)
 
 
@@ -121,7 +137,7 @@ class RPCA():
             Estimated covariance of data.
         """
 
-        return self.V.dot(self.S**2).dot(self.V.transpose())/(d1-1)
+        return self.V.dot(self.S**2).dot(self.V.transpose())/(self.d1-1)
 
     def to_matrix(self):
         '''
@@ -137,7 +153,30 @@ class RPCA():
 
         '''
 
-        return (self.U.dot(self.S).dot(self.V), outliers)
+        return self.L
+
+
+if __name__=="__main__":
+    A = np.random.randn(50, 2).dot(np.random.randn(2,30))
+    S = np.random.rand(*A.shape)<0.1
+
+    rpca=RPCA(n_components=2, sparsity=0.1)
+    rpca.fit(A+S)
+
+    print("Denoised matrix error: \n", np.linalg.norm(rpca.to_matrix()-A)/np.linalg.norm(A))
+    print("Outliersm error: \n", np.linalg.norm(rpca.outliers_-S)/np.linalg.norm(S))
+
+
+    # #%%
+    # rpca=RPCA(n_components=3, sparsity=0.1)
+    # U=rpca.fit_transform(A+S)
+    # print("Denoised matrix: \n", rpca.inverse_transform(U))
+    # #%%
+    # B=np.array([[-1, -2, -3, 3],
+    #             [0.5, 1, 1.5, 0]])
+    #
+    # outliers=rpca.predict_outliers(B)
+    # print("Outliers: \n", outliers)
 
 
 

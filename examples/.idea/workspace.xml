@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="38cc182f-b050-4ff2-9010-433d2a0e85a8" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../spalor/matrix_tools/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spalor/matrix_tools/factorization_util.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../spalor/matrix_tools/leverage_score.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.test_cur.py.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.test_mc.py.swp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/algorithms.cx.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/algorithms.cx.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/algorithms.mc.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/algorithms.mc.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/algorithms.robust_pca.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/algorithms.robust_pca.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.cur.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.cur.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.cx.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.cx.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.mc.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.mc.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.robust_pca.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/models.robust_pca.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/spalor.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/spalor.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/api_doc/util.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/api_doc/util.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/environment.pickle" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/environment.pickle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/examples/RPCA_background_forground_seperation.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/examples/RPCA_background_forground_seperation.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/examples/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/examples/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/examples/interpretable_low_rank_models_for_tumour_classification.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/examples/interpretable_low_rank_models_for_tumour_classification.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/examples/movie_lens_mc.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/examples/movie_lens_mc.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/user_guide/Leverage_CX_CUR.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/user_guide/Leverage_CX_CUR.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/user_guide/index.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/user_guide/index.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/user_guide/matrix_completion.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/user_guide/matrix_completion.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/.doctrees/user_guide/robust_PCA.doctree" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/.doctrees/user_guide/robust_PCA.doctree" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_images/output_5_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_images/output_6_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/algorithms.cx.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/algorithms.cx.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/algorithms.mc.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/algorithms.mc.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/algorithms.robust_pca.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/algorithms.robust_pca.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/algorithms.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/datasets.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/models.cur.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/models.cur.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/models.cx.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/models.cx.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/models.mc.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/models.mc.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/models.robust_pca.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/models.robust_pca.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/models.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/regularization.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/spalor.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/api_doc/spalor.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/api_doc/util.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/examples/Dimensionality reduction via PCA with missing data to classify tumours.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/examples/RPCA_background_forground_seperation.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/examples/RPCA_background_forground_seperation.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/examples/interpretable_low_rank_models_for_tumour_classification.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/examples/interpretable_low_rank_models_for_tumour_classification.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/examples/movie_lens_mc.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/examples/movie_lens_mc.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/index.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/user_guide/Leverage_CX_CUR.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/user_guide/Leverage_CX_CUR.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/user_guide/datasets.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/user_guide/index.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/user_guide/index.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/user_guide/matrix_completion.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/user_guide/matrix_completion.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/user_guide/reweighted_lasso.rst.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/_sources/user_guide/robust_PCA.rst.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/_sources/user_guide/robust_PCA.rst.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/algorithms.cx.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/algorithms.cx.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/algorithms.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/algorithms.mc.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/algorithms.mc.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/algorithms.robust_pca.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/algorithms.robust_pca.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/datasets.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/models.cur.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/models.cur.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/models.cx.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/models.cx.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/models.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/models.mc.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/models.mc.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/models.robust_pca.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/models.robust_pca.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/regularization.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/spalor.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/api_doc/spalor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/api_doc/util.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/compile_all.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/compile_all.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/examples/Dimensionality reduction via PCA with missing data to classify tumours.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/examples/RPCA_background_forground_seperation.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/examples/RPCA_background_forground_seperation.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/examples/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/examples/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/examples/interpretable_low_rank_models_for_tumour_classification.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/examples/interpretable_low_rank_models_for_tumour_classification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/examples/movie_lens_mc.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/examples/movie_lens_mc.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/genindex.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/genindex.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/objects.inv" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/objects.inv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/searchindex.js" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/searchindex.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/algorithms.cx.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/algorithms.cx.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/algorithms.mc.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/algorithms.mc.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/algorithms.robust_pca.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/algorithms.robust_pca.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/algorithms.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/datasets.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/models.cur.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/models.cur.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/models.cx.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/models.cx.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/models.mc.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/models.mc.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/models.robust_pca.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/models.robust_pca.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/models.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/regularization.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/spalor.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/api_doc/spalor.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/api_doc/util.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/conf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/.ipynb_checkpoints/interpretable_low_rank_models_for_tumour_classification-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/Dimensionality reduction via PCA with missing data to classify tumours.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/RPCA_background_forground_seperation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/examples/RPCA_background_forground_seperation.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/RPCA_background_forground_seperation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/examples/RPCA_background_forground_seperation.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/interpretable_low_rank_models_for_tumour_classification.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/examples/interpretable_low_rank_models_for_tumour_classification.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/interpretable_low_rank_models_for_tumour_classification.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/examples/interpretable_low_rank_models_for_tumour_classification.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/movie_lens_mc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/examples/movie_lens_mc.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/movie_lens_mc.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/examples/movie_lens_mc.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/output_5_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/examples/output_6_0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/index.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/make.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/.ipynb_checkpoints/Leverage_CX_CUR-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/.ipynb_checkpoints/datasets-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/.ipynb_checkpoints/matrix_completion-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/.ipynb_checkpoints/reweighted_lasso-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/.ipynb_checkpoints/robust_PCA-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/.ipynb_checkpoints/sparse_PCA-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/Leverage_CX_CUR.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/user_guide/Leverage_CX_CUR.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/Leverage_CX_CUR.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/user_guide/Leverage_CX_CUR.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/datasets.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/datasets.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/index.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/user_guide/index.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/matrix_completion.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/user_guide/matrix_completion.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/matrix_completion.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/user_guide/matrix_completion.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/nonconvex_regularizers.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/reweighted_lasso.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/reweighted_lasso.rst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/robust_PCA.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/user_guide/robust_PCA.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/source/user_guide/robust_PCA.rst" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/source/user_guide/robust_PCA.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/user_guide/Leverage_CX_CUR.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/user_guide/Leverage_CX_CUR.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/user_guide/datasets.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/user_guide/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/user_guide/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/user_guide/matrix_completion.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/user_guide/matrix_completion.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/user_guide/reweighted_lasso.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../docs/user_guide/robust_PCA.html" beforeDir="false" afterPath="$PROJECT_DIR$/../docs/user_guide/robust_PCA.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Dimensionality reduction via PCA with missing data to classify tumours-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/PCA_with_missing_data-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/RPCA_background_forground_seperation-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/Untitled-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/computed_tomography-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/interpretable_low_rank_models_for_tumour_classification-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/movie_lens_mc-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.ipynb_checkpoints/sparse_basis_MNIST-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.swp.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dimensionality reduction via PCA with missing data to classify tumours.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PCA_with_missing_data.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/PCA_with_missing_data.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RPCA_background_forground_seperation.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/RPCA_background_forground_seperation.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RPCA_background_forground_seperation.rst" beforeDir="false" afterPath="$PROJECT_DIR$/RPCA_background_forground_seperation.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Untitled.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpretable_low_rank_models_for_tumour_classification.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpretable_low_rank_models_for_tumour_classification.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/interpretable_low_rank_models_for_tumour_classification.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interpretable_low_rank_models_for_tumour_classification.rst" beforeDir="false" afterPath="$PROJECT_DIR$/interpretable_low_rank_models_for_tumour_classification.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie_lens_mc.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/movie_lens_mc.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/movie_lens_mc.rst" beforeDir="false" afterPath="$PROJECT_DIR$/movie_lens_mc.rst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/orthogonalize.ipynb" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/.ipynb_checkpoints/Untitled-checkpoint.ipynb.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/algorithms/.mc_algorithms.py.swp.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/algorithms/mc_algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/../spalor/algorithms/mc_algorithms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/algorithms/rpca_algorithms.py" beforeDir="false" afterPath="$PROJECT_DIR$/../spalor/algorithms/rpca_algorithms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/datasets/stt.py" beforeDir="false" afterPath="$PROJECT_DIR$/../spalor/datasets/stt.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/models/cur.py" beforeDir="false" afterPath="$PROJECT_DIR$/../spalor/models/cur.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/models/cx.py" beforeDir="false" afterPath="$PROJECT_DIR$/../spalor/models/cx.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/models/mc.py" beforeDir="false" afterPath="$PROJECT_DIR$/../spalor/models/mc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/models/robust_pca.py" beforeDir="false" afterPath="$PROJECT_DIR$/../spalor/models/robust_pca.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/util/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/util/factorization_util.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spalor/util/randomized_matrix_computations.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../tests/test_mc.py" beforeDir="false" afterPath="$PROJECT_DIR$/../tests/test_mc.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FxGgdEtTxnQgEdY581VEfG6uC6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

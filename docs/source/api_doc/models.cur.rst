@@ -1,4 +1,4 @@
-spalor.models.CUR
+CUR
 =====================
 
 .. autoclass:: spalor.models.CUR
